@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+
+html, css, scss, javascript 기반으로 제작된 페이지입니다.
+
+index.html 을 제작해주세요.
+
+파일 경로 : 
+
+- 루트 디렉토리에 index.html
+- css/common.scss 작업에 필요한 스타일을 여기에 작성해주세요.
+- css/lib/swiper-bundle.min.css swiper에 필요한 번들 스타일입니다. 최신버전으로 로컬저장해주세요.
+- js/common.js 작업에 필요한 자바스크립트를 여기에 작성해주세요.
+- js/lib/swiper-bundle.min.js swiper에 필요한 번들입니다. 최신버전으로 로컬저장해주세요.
+- js/lib/lottie.min.js 로띠 작업에 필요한 번들입니다. 로컬에 저장해서 사용할 수 있도록 해주세요.
+
+제약 사항 : 
+
+- scss 전처리기 사용, 컴파일링 css 필요
+- 이미지는 더미 이미지 사용해서 보여주기 (ex. https://placehold.co/600x400) 

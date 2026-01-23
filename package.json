@@ -1,0 +1,13 @@
+{
+  "name": "h-point-refactoring",
+  "version": "1.0.0",
+  "description": "h.point mobile page",
+  "scripts": {
+    "sass:watch": "sass css/common.scss css/common.css --watch",
+    "sass:compile": "sass css/common.scss css/common.css"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

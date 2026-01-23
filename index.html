@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>h.point</title>
+        <link rel="stylesheet" href="css/lib/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="css/common.css" />
+    </head>
+    <body>
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <img src="image/logo.svg" alt="h.point logo" />
+                </h1>
+                <div class="header-actions">
+                    <button class="icon-btn search-btn" aria-label="검색">
+                        <img src="image/ico_search.svg" alt="ico_search" />
+                    </button>
+                    <button class="icon-btn alarm-btn" aria-label="알람">
+                        <img src="image/ico_alarm.svg" alt="ico_alarm" />
+                    </button>
+                    <button class="icon-btn lang-btn" aria-label="언어">
+                        <img src="image/ico_lang.svg" alt="" />
+                    </button>
+                    <button class="icon-btn menu-btn" aria-label="메뉴">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 헤더 하단 공지 -->
+        <section class="top-notice" id="topNotice" aria-label="공지">
+            <div class="top-notice__inner">
+                <div class="top-notice__text">
+                    <p class="top-notice__title">새로운 소식을 알려드려요</p>
+                    <p class="top-notice__desc">커넥트현대 부산 • 딥티크 윈터세일 전품목 50%</p>
+                </div>
+                <button class="top-notice__close" type="button" aria-label="닫기">
+                    <img src="image/ico_close.png" alt="" />
+                </button>
+            </div>
+        </section>
+
+        <!-- 메인 컨텐츠 -->
+        <main class="main-content">
+            <!-- 포인트 배너 -->
+            <section class="points-banner">
+                <div class="points-info">
+                    <div class="points-info-top">
+                        <span class="points-info-top-text">포인트</span>
+                        <strong class="points-amount">
+                            2,026 
+                            <span class="points-unit">P</span>
+                            <img src="image/ico_arrow.png" alt="">
+                        </strong>
+                    </div>
+                </div>
+                <div class="points-actions">
+                    <button class="btn-primary earn-btn">
+                        <img src="image/ico_barcode.svg" alt="">
+                        <span>바코드</span>
+                    </button>
+                    <button class="btn-primary use-btn">
+                        <img src="image/ico_qr.svg" alt="">
+                        <span>QR 코드</span>
+                    </button>
+                </div>
+                <ul class="points-actions-list">
+                    <li>
+                        <a href="#">
+                            <span>선물</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>전환</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>충전</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>사용처</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 공지 스와이퍼 -->
+            <section class="notice-banner" aria-label="공지 스와이퍼">
+                <div class="swiper notice-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a class="notice-card" href="#">
+                                <span class="notice-icon" aria-hidden="true">
+                                    <img src="image/ico_coupon.svg" alt="">
+                                </span>
+                                <p class="notice-text">아더에러 | 쿠폰 사용기간이 얼마 남지 않았어요</p>
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a class="notice-card" href="#">
+                                <span class="notice-icon" aria-hidden="true">
+                                    <img src="image/ico_coupon.svg" alt="">
+                                </span>
+                                <p class="notice-text">이번 주말, 포인트 두 배 적립 이벤트가 있어요</p>
+                            </a>
+                        </div>
+                        <div class="swiper-slide">
+                            <a class="notice-card" href="#">
+                                <span class="notice-icon" aria-hidden="true">
+                                    <img src="image/ico_coupon.svg" alt="">
+                                </span>
+                                <p class="notice-text">새로운 제휴처가 추가되었어요. 사용처를 확인해보세요</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="notice-pagination" aria-hidden="true"></div>
+                </div>
+            </section>
+
+            <!-- 빠른 접근 아이콘 -->
+            <section class="quick-access">
+                <a href="#" class="quick-icon highlight">
+                    <img src="image/ico_h.svg" alt="하이라이트">
+                    <span>하이라이트</span>
+                </a>
+                <a href="#" class="quick-icon">
+                    <img src="image/ico_coupon.svg" alt="쿠폰">
+                    <span>쿠폰</span>
+                </a>
+                <a href="#" class="quick-icon">
+                    <img src="image/ico_point.svg" alt="포인트">
+                    <span>포인트</span>
+                </a>
+                <a href="#" class="quick-icon">
+                    <img src="image/ico_benefit.svg" alt="혜택">
+                    <span>혜택</span>
+                </a>
+                <a href="#" class="quick-icon">
+                    <img src="image/ico_culture.svg" alt="h.컬처">
+                    <span>h.컬처</span>
+                </a>
+            </section>
+
+            <!-- 최근 이용 메뉴 -->
+            <section class="recent-menu">
+                <h2 class="recent-menu-title">최근 이용 메뉴</h2>
+                <div class="recent-menu-list">
+                    <a href="#" class="recent-menu-item">사운드갤러리</a>
+                    <a href="#" class="recent-menu-item">룰렛</a>
+                    <a href="#" class="recent-menu-item">선물하기</a>
+                </div>
+            </section>
+
+            <!-- 혜택 바로 챙기기 -->
+            <section class="benefits-section">
+                <h2 class="section-title">h.point와 함께 혜택 바로 챙겨요</h2>
+                <div class="benefits-tabs-wrap">
+                    <div class="benefits-tabs">
+                        <button class="benefits-tab active">추천</button>
+                        <button class="benefits-tab">현대면세점</button>
+                        <button class="benefits-tab">현대백화점</button>
+                        <button class="benefits-tab">현대아울렛</button>
+                        <button class="benefits-tab">현대몰</button>
+                        <button class="benefits-tab">현대카드샵</button>
+                        <button class="benefits-tab">현대프라자</button>
+                    </div>
+                </div>
+                <div class="swiper benefits-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/148x120" alt="상품" />
+                                <span class="discount-tag">30%</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/148x120" alt="상품" />
+                                <span class="discount-tag">10%</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/148x120" alt="상품" />
+                                <span class="soldout-tag">품절</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/148x120" alt="상품" />
+                                <span class="stop-tag">STOP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Green Friends 배너 -->
+            <section class="green-friends-banner">
+                <div class="banner-content">
+                    <div class="banner-logo">
+                        <img src="https://placehold.co/60x60/4ADE80/FFFFFF?text=🌳" alt="Green Friends" />
+                    </div>
+                    <span class="banner-text">Green Friends</span>
+                </div>
+                <div class="banner-pagination">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </section>
+
+            <!-- 포인트 적립하기 -->
+            <section class="earn-points-section">
+                <h2 class="section-title">지금 포인트 버블래요?</h2>
+                <div class="swiper earn-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="earn-item">
+                                <div class="earn-icon">
+                                    <img src="https://placehold.co/80x80/8B4513/FFFFFF?text=☕" alt="카페" />
+                                </div>
+                                <div class="earn-points">300P</div>
+                                <div class="earn-label">CAFE</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="earn-item">
+                                <div class="earn-icon">
+                                    <img src="https://placehold.co/80x80/000000/FFFFFF?text=ADIDAS" alt="아디다스" />
+                                </div>
+                                <div class="earn-points">200P</div>
+                                <div class="earn-label">ADIDAS</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="earn-item">
+                                <div class="earn-icon">
+                                    <img src="https://placehold.co/80x80/FFFFFF/000000?text=STEAM" alt="스팀" />
+                                </div>
+                                <div class="earn-points">300P</div>
+                                <div class="earn-label">STEAM</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="earn-item">
+                                <div class="earn-icon">
+                                    <img src="https://placehold.co/80x80/FF6B6B/FFFFFF?text=SHOP" alt="쇼핑" />
+                                </div>
+                                <div class="earn-points">250P</div>
+                                <div class="earn-label">SHOP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 매일매일 적립 -->
+            <section class="daily-earn-section">
+                <h2 class="section-title">포인트 매일매일 적립해보세요</h2>
+                <div class="daily-options">
+                    <div class="daily-item">
+                        <div class="daily-icon">
+                            <img src="https://placehold.co/100x100/10B981/FFFFFF?text=📅" alt="출석체크" />
+                            <span class="check-mark">✓</span>
+                        </div>
+                        <div class="daily-label">출석체크</div>
+                        <div class="daily-points">700P</div>
+                    </div>
+                    <div class="daily-item">
+                        <div class="daily-icon">
+                            <img src="https://placehold.co/100x100/8B5CF6/FFFFFF?text=🎰" alt="룰렛" />
+                        </div>
+                        <div class="daily-label">룰렛</div>
+                        <div class="daily-points">700P</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 광고 배너 -->
+            <section class="ad-banner">
+                <div class="ad-content">
+                    <img src="https://placehold.co/300x100/808080/FFFFFF?text=kt" alt="kt 광고" />
+                </div>
+            </section>
+
+            <!-- 추천 상품 -->
+            <section class="recommend-section">
+                <h2 class="section-title">김현대님 뒤항에 맞게 골라봤어요</h2>
+                <div class="swiper recommend-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/150x150/000000/FFFFFF?text=파워뱅크" alt="상품" />
+                                <span class="discount-tag">78%</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/150x150/4A90E2/FFFFFF?text=침구" alt="상품" />
+                                <span class="discount-tag">72%</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/150x150/10B981/FFFFFF?text=가전" alt="상품" />
+                                <span class="discount-tag">38%</span>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <img src="https://placehold.co/150x150/FFB6C1/FFFFFF?text=화장품" alt="상품" />
+                                <span class="discount-tag">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 포인트로 목소리 내기 -->
+            <section class="voice-section">
+                <h2 class="section-title">포인트로 목소리 내게 사용해요</h2>
+                <div class="voice-actions">
+                    <button class="voice-btn green">
+                        <img src="https://placehold.co/40x40/10B981/FFFFFF?text=🛍️" alt="신청하기" />
+                        <span>신청하기</span>
+                    </button>
+                    <button class="voice-btn red">
+                        <img src="https://placehold.co/40x40/EF4444/FFFFFF?text=❤️" alt="기부하기" />
+                        <span>기부하기</span>
+                    </button>
+                    <button class="voice-btn blue">
+                        <img src="https://placehold.co/40x40/3B82F6/FFFFFF?text=🔒" alt="입하기" />
+                        <span>입하기</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 금융 혜택 -->
+            <section class="finance-section">
+                <h2 class="section-title">포인트와 금융 혜택까지 챙겨요</h2>
+                <div class="swiper finance-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="finance-card green">
+                                <div class="card-logo">H</div>
+                                <div class="card-label">복지조인트카드</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="finance-card beige">
+                                <div class="card-logo">H</div>
+                                <div class="card-label">현대백화점 멤버카드</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="finance-card pink">
+                                <div class="card-logo">S</div>
+                                <div class="card-label">삼성ID SIMPLE 카드</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 연금 배너 -->
+            <section class="pension-banner">
+                <div class="banner-content">
+                    <span class="banner-text">다음달부터 연금 받기</span>
+                    <div class="banner-icons">
+                        <img src="https://placehold.co/40x40/10B981/FFFFFF?text=🐷" alt="저금통" />
+                        <img src="https://placehold.co/40x40/10B981/FFFFFF?text=🧮" alt="계산기" />
+                    </div>
+                </div>
+            </section>
+
+            <!-- 문화 콘텐츠 -->
+            <section class="culture-section">
+                <h2 class="section-title">다양한 문화 콘텐츠 h.컬처와 함께해요</h2>
+                <div class="swiper culture-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="culture-card">
+                                <img src="https://placehold.co/200x150/FFFFFF/000000?text=미술작품" alt="문화 콘텐츠" />
+                                <div class="culture-info">
+                                    <span class="discount-tag">25% 할인</span>
+                                    <span class="culture-label">MICHA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="culture-card">
+                                <img src="https://placehold.co/200x150/FFFFFF/000000?text=전시회" alt="문화 콘텐츠" />
+                                <div class="culture-info">
+                                    <span class="discount-tag">25%</span>
+                                    <span class="culture-label">EXHIBIT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 하단 배너 -->
+            <section class="bottom-banner">
+                <div class="bottom-card">
+                    <span>비비케이크 1+1</span>
+                </div>
+                <button class="participate-btn">지금 바로 참여하세요</button>
+            </section>
+        </main>
+
+        <!-- 하단 네비게이션 -->
+        <nav class="bottom-nav">
+            <button class="nav-item">
+                <span class="nav-icon">
+                    <img src="image/ico_home.svg" alt="ico_home">
+                    <span>홈</span>
+                </span>
+            </button>
+            <button class="nav-item">
+                <span class="nav-icon">
+                    <img src="image/ico_point_w.svg" alt="ico_point_w">
+                    <span>적립</span>
+                </span>
+            </button>
+            <button class="nav-item center">
+                <span class="nav-icon">
+                    <img src="image/ico_card.svg" alt="ico_card">
+                    <span>결제</span>
+                </span>
+            </button>
+            <button class="nav-item">
+                <span class="nav-icon">
+                    <img src="image/ico_benefit_w.svg" alt="ico_benefit_w">
+                    <span>혜택</span>
+                </span>
+            </button>
+            <button class="nav-item">
+                <span class="nav-icon">
+                    <img src="image/ico_my.svg" alt="ico_my">
+                    <span>my.h</span>
+                </span>
+            </button>
+        </nav>
+
+        <script src="js/lib/swiper-bundle.min.js"></script>
+        <script src="js/lib/lottie.min.js"></script>
+        <script src="js/common.js"></script>
+    </body>
+</html>

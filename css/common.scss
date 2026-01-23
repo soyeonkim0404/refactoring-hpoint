@@ -1,0 +1,1242 @@
+// 변수 정의
+$primary-purple: #5500EB;
+$primary-green: #7DFFD2;
+$text-dark: #000000;
+$white: #FFFFFF;
+
+// 기본 스타일
+@font-face {
+    font-family: 'Happiness Sans';
+    src:
+        url('../fonts/Happiness-Sans-Regular.woff2') format('woff2'),
+        url('../fonts/Happiness-Sans-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Happiness Sans';
+    src:
+        url('../fonts/Happiness-Sans-Bold.woff2') format('woff2'),
+        url('../fonts/Happiness-Sans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Yellix';
+    src:
+        url('../fonts/YellixTRIAL.woff2') format('woff2'),
+        url('../fonts/YellixTRIAL.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+:root {
+    --header-h: 60px;
+    --notice-h: 0px;
+}
+
+li{
+    list-style: none;
+}
+
+body {
+    font-family: 'Happiness Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: $white;
+    color: $text-dark;
+    line-height: 1.5;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+}
+
+// 헤더
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+// 헤더 하단 공지
+.top-notice {
+    position: relative;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    z-index: 95;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 200px;
+    transition:
+        max-height 320ms ease,
+        opacity 220ms ease,
+        transform 320ms ease;
+    will-change: max-height, opacity, transform;
+}
+
+.top-notice__inner {
+    position: relative;
+    padding: 18px 24px;
+}
+
+.top-notice__text {
+    padding-right: 40px;
+}
+
+.top-notice__title {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: $text-dark;
+}
+
+.top-notice__desc {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: $text-dark;
+}
+
+.top-notice__close {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 18px;
+        height: 18px;
+        display: block;
+    }
+}
+
+.top-notice.is-closing {
+    opacity: 0;
+    transform: translateY(-16px);
+    max-height: 0 !important;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: $white;
+
+    .time {
+        font-weight: 600;
+    }
+
+    .status-icons {
+        display: flex;
+        gap: 4px;
+
+        span {
+            width: 20px;
+            height: 20px;
+            background-color: $text-dark;
+            border-radius: 2px;
+        }
+    }
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: transparent;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: $primary-green;
+        z-index: 1;
+    }
+
+    .header-actions {
+        display: flex;
+        z-index: 1;
+    }
+
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &.menu-btn {
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+
+            span {
+                display: block;
+                width: 20px;
+                height: 2px;
+                background-color:$primary-purple;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+                transform-origin: center;
+            }
+
+            &.active {
+                span:nth-child(1) {
+                    transform: rotate(45deg) translateY(10px);
+                }
+
+                span:nth-child(2) {
+                    opacity: 0;
+                    transform: scaleX(0);
+                }
+
+                span:nth-child(3) {
+                    transform: rotate(-45deg) translateY(-10px);
+                }
+            }
+        }
+    }
+}
+
+// 메인 컨텐츠
+.main-content {
+    padding-top: calc(var(--header-h));
+    padding-bottom: 80px;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    transition: padding-top 320ms ease;
+}
+
+// 포인트 배너
+.points-banner {
+    width: calc(100% - 48px);
+    background: $primary-green;
+    margin: 16px 24px;
+    border-radius: 0 30px 0 0;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+
+    // 배경 장식 요소
+    &::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(255, 235, 59, 0.3) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+}
+
+.points-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.points-info-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.points-info-top-text {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: $primary-purple;
+}
+
+.points-amount {
+    font-family: 'Yellix', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 36px;
+    color: $primary-purple;
+    line-height: 1;
+
+    .points-unit {
+        font-family: 'Yellix', sans-serif;
+        font-size: 32px;
+        color: $primary-purple;
+    }
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.points-actions {
+    display: flex;
+    gap: 12px;
+    margin: 100px 0 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary {
+    flex: 1;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 24px;
+    background-color: $primary-purple;
+    color: $primary-green;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    img {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) saturate(100%) invert(89%) sepia(15%) saturate(1234%) hue-rotate(88deg) brightness(95%) contrast(88%);
+    }
+
+    span {
+        color: $primary-green;
+    }
+
+    &:active {
+        opacity: 0.8;
+    }
+}
+
+.points-actions-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child)::after {
+            content: '|';
+            margin: 0 8px;
+            color: $primary-purple;
+            font-size: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: $primary-purple;
+            font-size: 14px;
+            font-weight: 700;
+            transition: opacity 0.2s;
+
+            &:active {
+                opacity: 0.7;
+            }
+
+            span {
+                color: $primary-purple;
+            }
+        }
+    }
+}
+
+// 공지 스와이퍼
+.notice-banner {
+    width: calc(100% - 48px);
+    margin: 0 24px 16px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: $white;
+}
+
+
+.notice-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: $text-dark;
+    position: relative;
+    z-index: 1;
+    min-height: 54px;
+    text-align: center;
+}
+
+.notice-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: $primary-green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+   img{
+    max-width: 100%;
+   }
+}
+
+.notice-text {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: $text-dark;
+}
+
+.notice-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 0 12px;
+    position: relative;
+    z-index: 1;
+
+    .swiper-pagination-bullet {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.25);
+        opacity: 1;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: $primary-purple;
+    }
+}
+
+// 빠른 접근
+.quick-access {
+    display: flex;
+    justify-content: space-around;
+    padding: 24px 20px;
+    background-color: #F5F5F5;
+    border-radius: 0 30px 0 0;
+    margin: 0 24px;
+    width: calc(100% - 48px);
+}
+
+.quick-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:active {
+        opacity: 0.7;
+    }
+
+    img {
+        width: 32px;
+        height: 32px;
+        display: block;
+    }
+
+    span {
+        font-size: 14px;
+        font-weight: 700;
+        color: $text-dark;
+        letter-spacing: -0.02em;
+    }
+
+    &.highlight {
+        gap: 12px;
+        img {
+            width: 30px;
+            height: 30px;
+        }
+        span {
+            color: $primary-purple;
+        }
+    }
+}
+
+// 섹션 공통
+section {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: $primary-purple;
+    padding: 20px 16px 12px;
+    width: 100%;
+}
+
+// 최근 이용 메뉴
+.recent-menu {
+    padding: 40px 24px 0;
+    width: 100%;
+
+    .recent-menu-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+    }
+
+    .recent-menu-list {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .recent-menu-item {
+        font-size: 14px;
+        font-weight: 400;
+        color: $text-dark;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        transition: opacity 0.2s;
+
+        &:active {
+            opacity: 0.7;
+        }
+    }
+}
+
+// 혜택 섹션
+.benefits-section,
+.recommend-section {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 60px;
+
+    .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.3;
+        padding: 20px 24px 0;
+    }
+
+    .benefits-tabs-wrap {
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+            pointer-events: none;
+            z-index: 10;
+        }
+    }
+
+    .benefits-tabs {
+        display: flex;
+        gap: 8px;
+        padding: 24px 24px 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        position: relative;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .benefits-tab {
+        flex: 0 0 auto;
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1px solid $primary-purple;
+        background-color: $white;
+        color: $primary-purple;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+
+        &.active {
+            background-color: $primary-purple;
+            color: $white;
+            border-color: $primary-purple;
+        }
+
+        &:active {
+            opacity: 0.8;
+        }
+    }
+
+    .swiper {
+        padding: 24px 24px 20px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .swiper-wrapper {
+        width: auto;
+    }
+
+    .swiper-slide {
+        width: auto;
+    }
+}
+
+.product-card {
+    position: relative;
+    width: 148px;
+    height: 120px;
+    border-radius: 0 16px 0 0;
+    overflow: hidden;
+    background-color: #F3F4F6;
+
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .discount-tag,
+    .soldout-tag,
+    .stop-tag {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: $white;
+    }
+
+    .discount-tag {
+        background-color: $primary-purple;
+    }
+
+    .soldout-tag {
+        background-color: #6B7280;
+    }
+
+    .stop-tag {
+        background-color: #EF4444;
+    }
+}
+
+// Green Friends 배너
+.green-friends-banner {
+    background-color: rgba(125, 255, 210, 0.2);
+    margin: 16px;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .banner-logo {
+        width: 48px;
+        height: 48px;
+        background-color: $primary-green;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .banner-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-dark;
+    }
+}
+
+.banner-pagination {
+    display: flex;
+    gap: 6px;
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: rgba(139, 92, 246, 0.3);
+
+        &.active {
+            background-color: $primary-purple;
+        }
+    }
+}
+
+// 포인트 적립 섹션
+.earn-points-section {
+    overflow: hidden;
+    width: 100%;
+
+    .swiper {
+        padding: 24px 24px 20px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .swiper-wrapper {
+        width: auto;
+    }
+
+    .swiper-slide {
+        width: auto;
+    }
+}
+
+.earn-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100px;
+}
+
+.earn-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.earn-points {
+    font-size: 14px;
+    font-weight: 700;
+    color: $text-dark;
+}
+
+.earn-label {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+// 매일매일 적립
+.daily-earn-section {
+    .daily-options {
+        display: flex;
+        gap: 16px;
+        padding: 0 16px 20px;
+    }
+}
+
+.daily-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.daily-icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .check-mark {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        background-color: $primary-green;
+        color: $white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+    }
+}
+
+.daily-label {
+    font-size: 14px;
+    color: $text-dark;
+    font-weight: 600;
+}
+
+.daily-points {
+    font-size: 16px;
+    font-weight: 700;
+    color: $primary-purple;
+}
+
+// 광고 배너
+.ad-banner {
+    margin: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .ad-content {
+        width: 100%;
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
+}
+
+// 포인트로 목소리 내기
+.voice-section {
+    .voice-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 16px 20px;
+    }
+}
+
+.voice-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: $white;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &.green {
+        background-color: $primary-green;
+    }
+
+    &.red {
+        background-color: #EF4444;
+    }
+
+    &.blue {
+        background-color: #3B82F6;
+    }
+
+    img {
+        width: 40px;
+        height: 40px;
+    }
+
+    &:active {
+        opacity: 0.8;
+    }
+}
+
+// 금융 혜택
+.finance-section {
+    overflow: hidden;
+    width: 100%;
+
+    .swiper {
+        padding: 0 16px 20px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .swiper-wrapper {
+        width: auto;
+    }
+
+    .swiper-slide {
+        width: auto;
+    }
+}
+
+.finance-card {
+    width: 200px;
+    height: 120px;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $white;
+
+    &.green {
+        background-color: $primary-green;
+    }
+
+    &.beige {
+        background-color: #F5F5DC;
+        color: $text-dark;
+    }
+
+    &.pink {
+        background-color: #FBCFE8;
+        color: $text-dark;
+    }
+
+    .card-logo {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .card-label {
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
+
+// 연금 배너
+.pension-banner {
+    background-color: $primary-green;
+    margin: 16px;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.pension-banner .banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .banner-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: $white;
+    }
+
+    .banner-icons {
+        display: flex;
+        gap: 8px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+}
+
+// 문화 콘텐츠
+.culture-section {
+    overflow: hidden;
+    width: 100%;
+
+    .swiper {
+        padding: 0 16px 20px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .swiper-wrapper {
+        width: auto;
+    }
+
+    .swiper-slide {
+        width: auto;
+    }
+}
+
+.culture-card {
+    width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #F3F4F6;
+
+    img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .culture-info {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .culture-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-dark;
+    }
+}
+
+// 하단 배너
+.bottom-banner {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bottom-card {
+    background-color: #F3F4F6;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: $text-dark;
+}
+
+.participate-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background-color: $primary-purple;
+    color: $white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:active {
+        opacity: 0.8;
+    }
+}
+
+// 하단 네비게이션
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $primary-purple;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding:11px 20px calc(10px + env(safe-area-inset-bottom)) 20px;
+    z-index: 100;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100vw;
+    height: 80px;
+    border-radius: 0 30px 0 0;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    .nav-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        color: rgba(255, 255, 255, 0.9);
+
+        img {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        span {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: rgba(255, 255, 255, 0.95);
+        }
+    }
+
+    &.active {
+        .nav-icon span {
+            color: $white;
+        }
+    }
+}
+
+.nav-item.center {
+    padding-top: 0;
+    padding-bottom: 0;
+    transform: translateY(-26px);
+
+    .nav-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 999px;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        gap:0;
+
+        background: radial-gradient(
+            circle at top center,
+            #1E0052 0%,
+            #3a00a0 40%,
+            #5500EB 100%
+        );
+
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            // background: radial-gradient(70% 70% at 50% 40%, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.35) 70%, rgba(0, 0, 0, 0.55) 100%);
+            // opacity: 0.35;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            // background: radial-gradient(60% 60% at 50% 35%, rgba(85, 0, 235, 1) 0%, rgba(85, 0, 235, 0.8) 55%, rgba(85, 0, 235, 0.2) 100%);
+            box-shadow: 0 16px 30px rgba(255, 255, 255, 0.18);
+            z-index: -1;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        span {
+            font-size: 12px;
+            font-weight: 700;
+            color: $primary-green;
+            position: relative;
+            z-index: 2;
+        }
+    }
+}
+
+.nav-item.center.active {
+    .nav-icon span {
+        color: $primary-green;
+    }
+}
+
+// Swiper 커스터마이징
+.swiper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.swiper-wrapper {
+    display: flex;
+    width: auto;
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    width: auto;
+}

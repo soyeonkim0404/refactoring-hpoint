@@ -1,0 +1,18 @@
+---
+alwaysApply: true
+---
+
+html, scss, javascript 제작해주세요.
+
+index.html main 태그 밖에 만들어주세요.
+
+요구사항: 
+- 팝업 안의 마크업 구조는 header와 body로 잡아주세요. 
+- header는 팝업 close버튼 마크업 잡아주세요. close 기능도 짜주세요.
+- body에는 바코드, 큐알 탭이 있고, 탭 클릭시 바코드 영역, 큐알 영역이 노출될 수 있도록 마크업 짜주세요.
+- 클릭이벤트 1 : bottom-nav > nav-item.center 결제 버튼 클릭시 노출되는 팝업입니다.
+- 클릭이벤트 2 : points-actions > earn-btn 버튼 클릭시 팝업 콘텐츠에서 바코드 영역이 노출되도록 해주세요.
+- 클릭이벤트 3 : points-actions > use-btn 버튼 클릭시 팝업 콘텐츠에서 qr 영역이 노출되도록 해주세요.
+- 팝업의 크기는 디바이스 height 영역의 80vh가 max-height로 노출되게끔 만들며, 컨텐츠가 넘치면 overflow-y:scroll 해서 콘텐츠에 스크롤 영역으로 해주세요. 
+- 팝업 노출 인터렉션은 첫 로딩시 아래에서 위로 올라오는 팝업으로 인터렉션 주세요.
+- 팝업이 사라질 때 인터렉션은 위에서 아래로 사라지는 인터렉션을 주세요. 

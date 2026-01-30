@@ -51,14 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const templateProducts = Array.from(benefitsProductsGrid.querySelectorAll('.main-product-template'));
         
         benefitsMoreBtn.addEventListener('click', function() {
-            // 템플릿 4개를 복제해서 추가
-            templateProducts.forEach(template => {
+            // 템플릿 4개를 복제해서 추가 (노출 애니메이션용 클래스 + 스태거 딜레이)
+            templateProducts.forEach((template, index) => {
                 const clonedProduct = template.cloneNode(true);
                 clonedProduct.classList.remove('main-product-template');
+                clonedProduct.classList.add('main-benefits-product-reveal');
+                clonedProduct.style.animationDelay = `${index * 0.06}s`;
                 benefitsProductsGrid.appendChild(clonedProduct);
             });
-            
-            // 버튼에 expanded 클래스 토글 (애니메이션 효과)
+
             benefitsMoreBtn.classList.toggle('expanded');
         });
     }

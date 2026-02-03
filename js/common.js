@@ -64,101 +64,171 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Swiper 라이브러리 확인
+    if (typeof Swiper === 'undefined') {
+        console.warn('Swiper 라이브러리가 로드되지 않았습니다.');
+    }
+
     // 포인트 적립 Swiper
-    const earnSwiper = new Swiper('.main-earn-swiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        centeredSlides: false,
-        loop: true,
-        loopedSlides: 6,
-        speed: 500,
-        watchSlidesProgress: true,
-        pagination: {
-            el: '.main-earn-pagination',
-            clickable: true,
-        },
-        on: {
-            progress(swiper) {
-              swiper.slides.forEach(slide => {
-                const progress = slide.progress;
-                const abs = Math.min(Math.abs(progress), 1);
-        
-                // slide.style.opacity = 1 - abs * 0.5;
-                slide.style.transform = `
-                  translateY(${abs * 12}px)
-                //   scale(${1 - abs * 0.08})
-                `;
-              });
+    const earnSwiperEl = document.querySelector('.main-earn-swiper');
+    if (earnSwiperEl && typeof Swiper !== 'undefined') {
+        const earnSwiper = new Swiper('.main-earn-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            centeredSlides: false,
+            loop: true,
+            loopedSlides: 6,
+            speed: 500,
+            watchSlidesProgress: true,
+            pagination: {
+                el: '.main-earn-pagination',
+                clickable: true,
             },
-            setTransition(swiper, duration) {
-              swiper.slides.forEach(slide => {
-                slide.style.transitionDuration = `${duration}ms`;
-              });
-            }
-          }
-    });
+            on: {
+                progress(swiper) {
+                  swiper.slides.forEach(slide => {
+                    const progress = slide.progress;
+                    const abs = Math.min(Math.abs(progress), 1);
+            
+                    // slide.style.opacity = 1 - abs * 0.5;
+                    slide.style.transform = `
+                      translateY(${abs * 12}px)
+                    //   scale(${1 - abs * 0.08})
+                    `;
+                  });
+                },
+                setTransition(swiper, duration) {
+                  swiper.slides.forEach(slide => {
+                    slide.style.transitionDuration = `${duration}ms`;
+                  });
+                }
+              }
+        });
+    }
 
     // 추천 상품 Swiper
-    const recommendSwiper = new Swiper('.recommend-swiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        freeMode: true,
-    });
+    const recommendSwiperEl = document.querySelector('.recommend-swiper');
+    if (recommendSwiperEl && typeof Swiper !== 'undefined') {
+        const recommendSwiper = new Swiper('.recommend-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            freeMode: true,
+        });
+    }
 
     // 금융 혜택 Swiper
-    const financeSwiper = new Swiper('.finance-swiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        freeMode: true,
-    });
+    const financeSwiperEl = document.querySelector('.finance-swiper');
+    if (financeSwiperEl && typeof Swiper !== 'undefined') {
+        const financeSwiper = new Swiper('.finance-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            freeMode: true,
+        });
+    }
 
     // 문화 콘텐츠 Swiper
-    const cultureSwiper = new Swiper('.culture-swiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        freeMode: true,
-    });
+    const cultureSwiperEl = document.querySelector('.culture-swiper');
+    if (cultureSwiperEl && typeof Swiper !== 'undefined') {
+        const cultureSwiper = new Swiper('.culture-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            freeMode: true,
+        });
+    }
 
     // Green Friends 배너 Swiper (걸쳐져서 보이는 스타일)
-    const greenFriendsSwiper = new Swiper('.main-green-friends-swiper', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        centeredSlides: false,
-        loop: false,
-        pagination: {
-            el: '.main-green-friends-pagination',
-            clickable: true,
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1.2,
-                spaceBetween: 16,
+    const greenFriendsSwiperEl = document.querySelector('.main-green-friends-swiper');
+    if (greenFriendsSwiperEl && typeof Swiper !== 'undefined') {
+        const greenFriendsSwiper = new Swiper('.main-green-friends-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 12,
+            centeredSlides: false,
+            loop: false,
+            pagination: {
+                el: '.main-green-friends-pagination',
+                clickable: true,
             },
-            375: {
-                slidesPerView: 1.3,
-                spaceBetween: 16,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 16,
+                },
+                375: {
+                    slidesPerView: 1.3,
+                    spaceBetween: 16,
+                },
+                414: {
+                    slidesPerView: 1.4,
+                    spaceBetween: 16,
+                },
             },
-            414: {
-                slidesPerView: 1.4,
-                spaceBetween: 16,
-            },
-        },
-    });
+        });
+    }
 
     // 공지 스와이퍼
-    const noticeSwiper = new Swiper('.main-notice-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 0,
-        loop: true,
-        pagination: {
-            el: '.main-notice-pagination',
-            clickable: true,
-        },
-        autoplay: {
-            delay: 3500,
-            disableOnInteraction: false,
-        },
-    });
+    const noticeSwiperEl = document.querySelector('.main-notice-swiper');
+    if (noticeSwiperEl && typeof Swiper !== 'undefined') {
+        const noticeSwiper = new Swiper('.main-notice-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            pagination: {
+                el: '.main-notice-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+        });
+    }
+
+    // 포인트 배너 배경 Swiper
+    const pointsBannerBgSwiperEl = document.querySelector('.main-points-banner_bg-swiper');
+    if (pointsBannerBgSwiperEl && typeof Swiper !== 'undefined') {
+        const pointsBannerBgSwiper = new Swiper('.main-points-banner_bg-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true,
+            },
+            on: {
+                init: function() {
+                    // 초기 로드 시 첫 번째 오브제 표시
+                    const objItems = document.querySelectorAll('.main-points-banner_obj-item');
+                    const currentIndex = this.realIndex % objItems.length;
+                    objItems.forEach((item, index) => {
+                        if (index === currentIndex) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                },
+                slideChange: function() {
+                    // 슬라이드 변경 시 해당 오브제 아이콘만 opacity 0->1로 표시
+                    const objItems = document.querySelectorAll('.main-points-banner_obj-item');
+                    const currentIndex = this.realIndex % objItems.length;
+                    
+                    objItems.forEach((item, index) => {
+                        if (index === currentIndex) {
+                            // 현재 슬라이드에 해당하는 오브제만 active 클래스 추가
+                            item.classList.add('active');
+                        } else {
+                            // 나머지 오브제는 active 클래스 제거
+                            item.classList.remove('active');
+                        }
+                    });
+                },
+            },
+        });
+    }
 
     // 하단 네비게이션 클릭 이벤트
     const navItems = document.querySelectorAll('.main-nav-item');
@@ -496,7 +566,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // First Popup Swiper 초기화
     let firstPopupSwiper = null;
-    if (firstPopup && shouldShowPopup()) {
+    const firstPopupSwiperEl = document.querySelector('.main-first-popup-swiper');
+    if (firstPopup && firstPopupSwiperEl && typeof Swiper !== 'undefined' && shouldShowPopup()) {
         // 팝업이 표시된 후 Swiper 초기화
         setTimeout(() => {
             if (firstPopup.classList.contains('show')) {
@@ -747,4 +818,5 @@ document.addEventListener('DOMContentLoaded', function() {
             createRollingNumber(aniPoint, targetNumber, 1000);
         }, 500);
     }
+
 });

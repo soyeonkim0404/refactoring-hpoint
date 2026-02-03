@@ -1,0 +1,156 @@
+*{
+  padding:0;
+  margin: 0;
+}
+
+.page-wrap {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.card-section-intro, .card-section-mint{
+  width:100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/*card parallax*/
+.card-section-parallax {
+    position: relative;
+    overflow-x: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    
+    // JavaScript에서 동적으로 높이 설정 (4등분된 구간 * 100vh)
+    // 기본값: 400vh (4개 구간)
+    min-height: 400vh;
+    
+    /* 배경 영역 (전체 너비, sticky로 고정) */
+    .card-parallax-image {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 1;
+  
+      /* 배경 이미지 레이어 */
+      .card-parallax-bg_image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.8s ease-in-out;
+  
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+  
+        &.is-active {
+          opacity: 1;
+          z-index: 1;
+        }
+        
+        // 첫 번째 이미지는 기본적으로 보이도록 (초기 상태)
+        &:first-child:not(.is-active) {
+          opacity: 1;
+          z-index: 0;
+        }
+      }
+    }
+  
+    /* 우측 콘텐츠 영역 (카드 그리드, absolute로 배경 위에 떠있음) */
+    .card-parallax-content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      padding: 60px 40px;
+      box-sizing: border-box;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      align-content: start;
+      pointer-events: none;
+  
+      /* 카드 아이템 */
+      .card-parallax-con {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(12px);
+        opacity: 0.75;
+        transition: 
+          transform 0.35s ease,
+          opacity 0.35s ease,
+          box-shadow 0.35s ease;
+        pointer-events: auto;
+  
+        img {
+          width: 100%;
+          height: auto;
+          max-height: 70%;
+          object-fit: contain;
+          display: block;
+          margin-bottom: 16px;
+        }
+  
+        // 카드 내 텍스트 라벨 (필요시 추가)
+        &::after {
+          content: attr(data-label);
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          margin-top: auto;
+        }
+  
+        &.is-active {
+          transform: translateY(0);
+          opacity: 1;
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+  
+  /* 모바일: 1열 레이아웃 */
+  @media (max-width: 860px) {
+    .card-section-parallax {
+      .card-parallax-image {
+        position: relative;
+        height: 50vh;
+      }
+  
+      .card-parallax-content {
+        position: relative;
+        width: 100%;
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 16px;
+      }
+    }
+  }

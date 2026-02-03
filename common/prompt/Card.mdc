@@ -1,0 +1,24 @@
+---
+alwaysApply: true
+---
+
+html, scss, javascript 제작해주세요.
+
+요구사항 :
+- /page/card.html, /css/common.scss, js/common.js에 제작해주세요.
+- .card-parallax-image 안의 .card-parallax-bg_image들은 “배경 레이어”이며 한 번에 하나만 보인다.
+- .card-parallax-content는 오른쪽 영역이며 내부 콘텐츠(.card-parallax-con)가 세로로 스크롤된다.
+
+레이아웃 : 
+- 섹션 .card-section-parallax는 화면 100vh.
+- 좌측(또는 뒤) 배경 .card-parallax-image는 position: sticky; top:0; height:100vh;로 고정된다.
+- 우측 .card-parallax-content는 height:100vh; overflow-y:auto;로 이 영역만 스크롤되게 한다.
+
+동작: 
+- .card-parallax-content 안에서 스크롤 시, 중앙(뷰포트 중간)에 가장 가까운 .card-parallax-con을 “활성”으로 판단한다.
+- 활성 콘텐츠의 인덱스에 따라 배경 이미지 인덱스를 계산하여(bgCount 기준) 해당 .card-parallax-bg_image만 보이도록 토글한다.
+- 배경 전환은 crossfade(두 레이어 opacity 전환)처럼 부드럽게 한다.
+
+구현: 
+- IntersectionObserver를 사용하되, root는 .card-parallax-content로 설정한다. (페이지 전체가 아니라 우측 스크롤 컨테이너 기준)
+- 이미지 깜빡임 방지를 위해 bg 이미지들을 preload 해준다.

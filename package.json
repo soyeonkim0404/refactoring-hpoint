@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "h.point mobile page",
   "scripts": {
-    "sass:watch": "sass css/common.scss css/common.css --watch",
-    "sass:compile": "sass css/common.scss css/common.css"
+    "sass:watch": "npx sass css/common.scss css/common.css --watch",
+    "sass:compile": "npx sass css/common.scss css/common.css",
+    "sass:watch:card": "npx sass css/page/card/card.scss css/page/card/card.css --watch",
+    "sass:compile:card": "npx sass css/page/card/card.scss css/page/card/card.css",
+    "sass:watch:all": "npm run sass:watch & npm run sass:watch:card"
   },
   "devDependencies": {},
   "keywords": [],

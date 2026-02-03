@@ -1,0 +1,163 @@
+@charset "UTF-8";
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.page-wrap {
+  -ms-scroll-snap-type: y mandatory;
+      scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.card-section-intro, .card-section-mint {
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/*card parallax*/
+.card-section-parallax {
+  position: relative;
+  overflow-x: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 400vh;
+  /* 배경 영역 (전체 너비, sticky로 고정) */
+  /* 우측 콘텐츠 영역 (카드 그리드, absolute로 배경 위에 떠있음) */
+}
+.card-section-parallax .card-parallax-image {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  /* 배경 이미지 레이어 */
+}
+.card-section-parallax .card-parallax-image .card-parallax-bg_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-transition: opacity 0.8s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
+}
+.card-section-parallax .card-parallax-image .card-parallax-bg_image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.card-section-parallax .card-parallax-image .card-parallax-bg_image.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+.card-section-parallax .card-parallax-image .card-parallax-bg_image:first-child:not(.is-active) {
+  opacity: 1;
+  z-index: 0;
+}
+.card-section-parallax .card-parallax-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  padding: 60px 40px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  -ms-flex-line-pack: start;
+      align-content: start;
+  pointer-events: none;
+  /* 카드 아이템 */
+}
+.card-section-parallax .card-parallax-content .card-parallax-con {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transform: translateY(12px);
+          transform: translateY(12px);
+  opacity: 0.75;
+  -webkit-transition: opacity 0.35s ease, -webkit-transform 0.35s ease, -webkit-box-shadow 0.35s ease;
+  transition: opacity 0.35s ease, -webkit-transform 0.35s ease, -webkit-box-shadow 0.35s ease;
+  transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.35s ease, -webkit-transform 0.35s ease, -webkit-box-shadow 0.35s ease;
+  pointer-events: auto;
+}
+.card-section-parallax .card-parallax-content .card-parallax-con img {
+  width: 100%;
+  height: auto;
+  max-height: 70%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  display: block;
+  margin-bottom: 16px;
+}
+.card-section-parallax .card-parallax-content .card-parallax-con::after {
+  content: attr(data-label);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: auto;
+}
+.card-section-parallax .card-parallax-content .card-parallax-con.is-active {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+  -webkit-box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* 모바일: 1열 레이아웃 */
+@media (max-width: 860px) {
+  .card-section-parallax .card-parallax-image {
+    position: relative;
+    height: 50vh;
+  }
+  .card-section-parallax .card-parallax-content {
+    position: relative;
+    width: 100%;
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 16px;
+  }
+}/*# sourceMappingURL=card.css.map */

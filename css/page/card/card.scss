@@ -1,156 +1,410 @@
-*{
-  padding:0;
+// ===========================================
+// Card Page Styles (page/card 전용)
+// ===========================================
+
+// SCSS 변수
+$color-bg: #070a0e;
+$color-bg-dark: #05080c;
+$color-bg-section: #090d12;
+$color-white: rgba(255, 255, 255, 1);
+$color-white-92: rgba(255, 255, 255, 0.92);
+$color-white-70: rgba(255, 255, 255, 0.70);
+$color-white-20: rgba(255, 255, 255, 0.20);
+$color-white-14: rgba(255, 255, 255, 0.14);
+$color-white-12: rgba(255, 255, 255, 0.12);
+$color-white-10: rgba(255, 255, 255, 0.10);
+$color-white-08: rgba(255, 255, 255, 0.08);
+$color-white-06: rgba(255, 255, 255, 0.06);
+$color-white-04: rgba(255, 255, 255, 0.04);
+$color-black: rgba(0, 0, 0, 1);
+$font-stack: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Arial, sans-serif;
+$breakpoint-mobile: 980px;
+
+// CSS 변수 (JS 업데이트용)
+:root {
+  --txt: #{$color-white-92};
+  --muted: #{$color-white-70};
+  --glass: #{$color-white-08};
+  --stroke: #{$color-white-12};
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  --radius: 22px;
+  --p: 0;
+  --bg1: 1;
+  --bg2: 0;
+  --bg3: 0;
+}
+
+// Base
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
   margin: 0;
+  font-family: $font-stack;
+  color: var(--txt);
+  background: $color-bg;
+  overflow-x: hidden;
 }
 
-.page-wrap {
-  scroll-snap-type: y mandatory;
-  overflow-y: auto;
-  height: 100vh;
+// Skip link (a11y)
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+
+  &:focus {
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    padding: 10px 12px;
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    z-index: 9999;
+  }
 }
 
-.card-section-intro, .card-section-mint{
-  width:100%;
-  height: 100vh;
+// Demo sections (상/하단)
+.section {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+  justify-content: center;
+  padding: 70px 20px;
+  background: radial-gradient(1000px 520px at 50% 30%, $color-white-06, transparent 60%),
+    linear-gradient(180deg, $color-bg, $color-bg-section);
+
+  .demo-box {
+    width: min(960px, 100%);
+    padding: 28px 24px;
+    border-radius: 18px;
+    border: 1px solid $color-white-10;
+    background: $color-white-04;
+  }
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
 }
 
-/*card parallax*/
-.card-section-parallax {
-    position: relative;
-    overflow-x: hidden;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    
-    // JavaScript에서 동적으로 높이 설정 (4등분된 구간 * 100vh)
-    // 기본값: 400vh (4개 구간)
-    min-height: 400vh;
-    
-    /* 배경 영역 (전체 너비, sticky로 고정) */
-    .card-parallax-image {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      z-index: 1;
-  
-      /* 배경 이미지 레이어 */
-      .card-parallax-bg_image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.8s ease-in-out;
-  
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-  
-        &.is-active {
-          opacity: 1;
-          z-index: 1;
-        }
-        
-        // 첫 번째 이미지는 기본적으로 보이도록 (초기 상태)
-        &:first-child:not(.is-active) {
-          opacity: 1;
-          z-index: 0;
-        }
-      }
+// Parallax Lock Section
+.parallax-section {
+  position: relative;
+  height: 260vh;
+  background: $color-bg-dark;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+// BG layers (3개)
+.bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -90px;
+    background:
+      radial-gradient(600px 320px at 30% 30%, $color-white-08, transparent 60%),
+      radial-gradient(700px 420px at 70% 70%, $color-white-06, transparent 60%);
+    opacity: 0.75;
+    transform: translate3d(calc((var(--p) - 0.5) * -40px), calc((var(--p) - 0.5) * 28px), 0);
+    transition: transform 0.05s linear;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: overlay;
+  }
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  transform: translate3d(0, 0, 0);
+
+  &.bg1 {
+    opacity: var(--bg1);
+    background:
+      radial-gradient(900px 520px at 18% 22%, $color-white-10, transparent 60%),
+      radial-gradient(900px 520px at 78% 35%, rgba(120, 255, 220, 0.10), transparent 62%),
+      linear-gradient(120deg, #0a0f14, #15232c 44%, #0f1a22);
+  }
+
+  &.bg2 {
+    opacity: var(--bg2);
+    background:
+      radial-gradient(900px 520px at 20% 24%, rgba(140, 160, 255, 0.14), transparent 62%),
+      radial-gradient(900px 520px at 70% 28%, $color-white-08, transparent 60%),
+      radial-gradient(900px 520px at 60% 82%, rgba(255, 120, 120, 0.10), transparent 62%),
+      linear-gradient(120deg, #0b0c17, #1a1e35 45%, #111a26);
+  }
+
+  &.bg3 {
+    opacity: var(--bg3);
+    background:
+      radial-gradient(900px 520px at 20% 22%, rgba(255, 190, 120, 0.12), transparent 62%),
+      radial-gradient(900px 520px at 80% 35%, rgba(120, 255, 220, 0.08), transparent 62%),
+      radial-gradient(900px 520px at 65% 86%, rgba(255, 120, 180, 0.10), transparent 60%),
+      linear-gradient(120deg, #0b1011, #163132 44%, #101b22);
+  }
+}
+
+// Content layout
+.content {
+  position: relative;
+  width: min(1280px, 100%);
+  height: 100%;
+  margin: 0 auto;
+  padding: 78px 20px 40px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 26px;
+  z-index: 2;
+}
+
+// 좌측 텍스트
+.headline {
+  max-width: 640px;
+  align-self: start;
+  padding-top: 4px;
+}
+
+.kicker {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.title {
+  margin: 0 0 18px;
+  font-size: clamp(44px, 5.5vw, 74px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1.03;
+  text-shadow: 0 14px 50px rgba(0, 0, 0, 0.35);
+}
+
+.desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+// 왼쪽 차량(도형)
+.car {
+  position: absolute;
+  left: min(70px, 5vw);
+  bottom: 6vh;
+  width: min(840px, 78vw);
+  height: min(330px, 34vh);
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 28px 70px rgba(0, 0, 0, 0.55));
+  opacity: 0.95;
+  transform: translate3d(calc(var(--p) * -18px), calc(var(--p) * 6px), 0);
+  transition: transform 0.05s linear;
+
+  .shell {
+    position: absolute;
+    inset: 0;
+    border-radius: 26px;
+    background:
+      radial-gradient(160px 100px at 22% 58%, $color-white-20, transparent 60%),
+      radial-gradient(240px 140px at 58% 35%, $color-white-12, transparent 60%),
+      linear-gradient(180deg, $color-white-14, $color-white-04);
+    border: 1px solid $color-white-08;
+    backdrop-filter: blur(2px);
+  }
+
+  .line {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 46%;
+    height: 2px;
+    background: $color-white-10;
+  }
+
+  .wheel {
+    position: absolute;
+    bottom: 7%;
+    width: 110px;
+    height: 110px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.06) 52%, rgba(255, 255, 255, 0.14) 53%, rgba(0, 0, 0, 0.35) 100%);
+
+    &.left {
+      left: 12%;
     }
-  
-    /* 우측 콘텐츠 영역 (카드 그리드, absolute로 배경 위에 떠있음) */
-    .card-parallax-content {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 40%;
-      height: 100%;
-      padding: 60px 40px;
-      box-sizing: border-box;
-      z-index: 10;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      align-content: start;
-      pointer-events: none;
-  
-      /* 카드 아이템 */
-      .card-parallax-con {
-        width: 100%;
-        aspect-ratio: 1;
-        border-radius: 20px;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transform: translateY(12px);
-        opacity: 0.75;
-        transition: 
-          transform 0.35s ease,
-          opacity 0.35s ease,
-          box-shadow 0.35s ease;
-        pointer-events: auto;
-  
-        img {
-          width: 100%;
-          height: auto;
-          max-height: 70%;
-          object-fit: contain;
-          display: block;
-          margin-bottom: 16px;
-        }
-  
-        // 카드 내 텍스트 라벨 (필요시 추가)
-        &::after {
-          content: attr(data-label);
-          color: rgba(255, 255, 255, 0.9);
-          font-size: 14px;
-          font-weight: 500;
-          text-align: center;
-          margin-top: auto;
-        }
-  
-        &.is-active {
-          transform: translateY(0);
-          opacity: 1;
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
-          background: rgba(0, 0, 0, 0.5);
-        }
-      }
+
+    &.right {
+      right: 12%;
     }
   }
-  
-  /* 모바일: 1열 레이아웃 */
-  @media (max-width: 860px) {
-    .card-section-parallax {
-      .card-parallax-image {
-        position: relative;
-        height: 50vh;
-      }
-  
-      .card-parallax-content {
-        position: relative;
-        width: 100%;
-        grid-template-columns: 1fr;
-        padding: 24px;
-        gap: 16px;
-      }
-    }
+}
+
+// 오른쪽 카드 영역
+.cards {
+  position: relative;
+  height: 100%;
+  min-height: 640px;
+  align-self: stretch;
+  overflow: hidden;
+  padding-right: 8px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 2px;
+    width: 3px;
+    height: calc(100% - 40px);
+    border-radius: 999px;
+    background: $color-white-06;
+    border: 1px solid $color-white-08;
   }
+}
+
+.scroll-thumb {
+  position: absolute;
+  top: 20px;
+  right: 2px;
+  width: 3px;
+  height: 84px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  transform: translate3d(0, calc(var(--p) * (100% - 84px)), 0);
+}
+
+// 카드 아이템
+.card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: 0;
+  width: min(520px, 88vw);
+  height: 210px;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, $color-white-10, $color-white-06);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  transform:
+    translate3d(calc((1 - var(--p)) * 20px), 0, 0) scale(1);
+  filter: blur(0);
+  transition: transform 0.05s linear, filter 0.05s linear, opacity 0.05s linear;
+
+  &[data-i] {
+    top: calc(var(--baseTop) * 1px);
+  }
+
+  .mock-area {
+    height: 120px;
+    margin: 16px;
+    border-radius: 16px;
+    background: $color-white-06;
+    border: 1px dashed $color-white-20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .label {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+}
+
+// 아래 안내
+.hint {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  z-index: 5;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid $color-white-10;
+  padding: 8px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+// 모바일
+@media (max-width: $breakpoint-mobile) {
+  .content {
+    grid-template-columns: 1fr;
+    padding-top: 68px;
+  }
+
+  .cards {
+    margin-top: 18px;
+    min-height: 620px;
+  }
+
+  .card {
+    width: min(560px, 92vw);
+  }
+
+  .car {
+    left: 10px;
+    bottom: 3vh;
+    width: min(900px, 92vw);
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer {
+    transition: none !important;
+  }
+
+  .bg-wrap::after,
+  .car,
+  .card {
+    transition: none !important;
+  }
+}

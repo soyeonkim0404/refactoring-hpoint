@@ -1,0 +1,248 @@
+@charset "UTF-8";
+:root {
+  --txt: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.7);
+  --stroke: rgba(255, 255, 255, 0.12);
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  --radius: 22px;
+  /* progress + bg */
+  --p: 0;
+  --bg1: 1;
+  --bg2: 0;
+  --bg3: 0;
+  --bg4: 0;
+  /* cards sizing */
+  --cardSize: 360px;
+  --cardGap: 60px;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--txt);
+  background: #070a0e;
+  overflow-x: hidden;
+}
+
+/* Skip link (a11y) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  padding: 10px 12px;
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+  z-index: 9999;
+}
+
+/* 상/하단 */
+.section {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 70px 20px;
+  background: radial-gradient(1000px 520px at 50% 30%, rgba(255, 255, 255, 0.06), transparent 60%), -webkit-gradient(linear, left top, left bottom, from(#070a0e), to(#090d12));
+  background: radial-gradient(1000px 520px at 50% 30%, rgba(255, 255, 255, 0.06), transparent 60%), linear-gradient(180deg, #070a0e, #090d12);
+}
+.section .demo-box {
+  width: min(960px, 100%);
+  padding: 28px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+.section h2 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+.section p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* Parallax Lock */
+.parallax-section {
+  position: relative;
+  height: 260vh; /* 섹션 체감 길이 */
+  background: #05080c;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: visible;
+  isolation: isolate; /* z-index/블렌드 격리 */
+}
+
+/* 레이아웃 */
+.content {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 78px 20px 40px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 26px;
+  z-index: 1;
+}
+
+/* BG fade */
+.bg-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-fade-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out; /* 페이드 - 전환 시간 증가 */
+}
+.bg-fade-layer img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* ✅ JS 변수 연결 (핵심) */
+.bg1 {
+  opacity: var(--bg1);
+}
+
+.bg2 {
+  opacity: var(--bg2);
+}
+
+.bg3 {
+  opacity: var(--bg3);
+}
+
+.bg4 {
+  opacity: var(--bg4);
+}
+
+/* 카드 영역 */
+.cards {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  width: 720px;
+  height: 100%;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cardGap);
+  -ms-flex-line-pack: start;
+      align-content: start;
+  padding: 200px 14px 30px 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: visible;
+}
+
+/* 스크롤 thumb */
+.scroll-thumb {
+  position: absolute;
+  top: 20px;
+  right: 4px;
+  width: 3px;
+  height: 84px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  -webkit-transform: translate3d(0, calc(var(--p) * (100% - 84px)), 0);
+          transform: translate3d(0, calc(var(--p) * (100% - 84px)), 0);
+  opacity: 0;
+}
+
+/* 카드 */
+.card {
+  position: relative;
+  width: var(--cardSize);
+  height: var(--cardSize);
+  border-radius: var(--radius);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.1)), to(rgba(255, 255, 255, 0.06)));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--stroke);
+  -webkit-box-shadow: var(--shadow);
+          box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(14px);
+          backdrop-filter: blur(14px);
+  overflow: hidden;
+  -webkit-transition: opacity 0.3s ease, -webkit-transform 0.3s ease, -webkit-filter 0.3s ease;
+  transition: opacity 0.3s ease, -webkit-transform 0.3s ease, -webkit-filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease, -webkit-transform 0.3s ease, -webkit-filter 0.3s ease;
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+.card:nth-child(even):not(:first-child) {
+  -webkit-transform: translateY(calc(var(--cardSize) * -0.3));
+          transform: translateY(calc(var(--cardSize) * -0.3));
+}
+
+/* 모바일 */
+@media (max-width: 980px) {
+  .content {
+    grid-template-columns: 1fr;
+    padding-top: 68px;
+  }
+  .cards {
+    width: 200px;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 30px 14px 30px 0;
+  }
+  .cards .card {
+    width: 200px;
+    height: 200px;
+  }
+  .cards .card:nth-child(even):not(:first-child) {
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bg-fade-layer,
+  .card {
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+}/*# sourceMappingURL=card.css.map */

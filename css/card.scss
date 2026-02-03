@@ -1,0 +1,237 @@
+// ===========================================
+// Card Page Styles (page/card 전용)
+// ===========================================
+
+$color-bg: #070a0e;
+$color-bg-dark: #05080c;
+$color-bg-section: #090d12;
+$color-white-92: rgba(255, 255, 255, 0.92);
+$color-white-70: rgba(255, 255, 255, 0.70);
+$color-white-12: rgba(255, 255, 255, 0.12);
+$color-white-10: rgba(255, 255, 255, 0.10);
+$color-white-08: rgba(255, 255, 255, 0.08);
+$color-white-06: rgba(255, 255, 255, 0.06);
+$color-white-04: rgba(255, 255, 255, 0.04);
+$font-stack: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Arial, sans-serif;
+$breakpoint-mobile: 980px;
+
+:root {
+  --txt: #{$color-white-92};
+  --muted: #{$color-white-70};
+  --stroke: #{$color-white-12};
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  --radius: 22px;
+
+  /* progress + bg */
+  --p: 0;
+  --bg1: 1;
+  --bg2: 0;
+  --bg3: 0;
+  --bg4: 0;
+
+  /* cards sizing */
+  --cardSize: 360px;
+  --cardGap: 60px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: $font-stack;
+  color: var(--txt);
+  background: $color-bg;
+  overflow-x: hidden;
+}
+
+/* Skip link (a11y) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+
+  &:focus {
+    left: 16px;
+    top: 16px;
+    width: auto;
+    height: auto;
+    padding: 10px 12px;
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    z-index: 9999;
+  }
+}
+
+/* 상/하단 */
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 20px;
+  background:
+    radial-gradient(1000px 520px at 50% 30%, $color-white-06, transparent 60%),
+    linear-gradient(180deg, $color-bg, $color-bg-section);
+
+  .demo-box {
+    width: min(960px, 100%);
+    padding: 28px 24px;
+    border-radius: 18px;
+    border: 1px solid $color-white-10;
+    background: $color-white-04;
+  }
+
+  h2 {
+    margin: 0 0 10px;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+}
+
+/* Parallax Lock */
+.parallax-section {
+  position: relative;
+  height: 260vh; /* 섹션 체감 길이 */
+  background: $color-bg-dark;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: visible;
+  isolation: isolate; /* z-index/블렌드 격리 */
+}
+
+/* 레이아웃 */
+.content {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 78px 20px 40px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 26px;
+  z-index: 1;
+}
+
+/* BG fade */
+.bg-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-fade-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .5s ease-in-out; /* 페이드 - 전환 시간 증가 */
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* ✅ JS 변수 연결 (핵심) */
+.bg1 { opacity: var(--bg1); }
+.bg2 { opacity: var(--bg2); }
+.bg3 { opacity: var(--bg3); }
+.bg4 { opacity: var(--bg4); }
+
+/* 카드 영역 */
+.cards {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  width: 720px;
+  height: 100%;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cardGap);
+  align-content: start;
+  padding: 200px 14px 30px 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* 스크롤 thumb */
+.scroll-thumb {
+  position: absolute;
+  top: 20px;
+  right: 4px;
+  width: 3px;
+  height: 84px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  transform: translate3d(0, calc(var(--p) * (100% - 84px)), 0);
+  opacity: 0;
+}
+
+/* 카드 */
+.card {
+  position: relative;
+  width: var(--cardSize);
+  height: var(--cardSize);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, $color-white-10, $color-white-06);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &:nth-child(even):not(:first-child) {
+    transform: translateY(calc(var(--cardSize) * -0.3));
+  }
+}
+
+/* 모바일 */
+@media (max-width: $breakpoint-mobile) {
+  .content {
+    grid-template-columns: 1fr;
+    padding-top: 68px;
+  }
+
+  .cards {
+    width:200px;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 30px 14px 30px 0;
+    .card {
+      width: 200px;
+      height: 200px;
+      &:nth-child(even):not(:first-child) {
+        transform: none;
+      }
+    }
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bg-fade-layer,
+  .card {
+    transition: none !important;
+  }
+}

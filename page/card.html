@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sensing Solution - BG Fade + 13 Cards</title>
-  <link rel="stylesheet" href="../css/page/card/card.css" />
+  <link rel="stylesheet" href="../css/card.css" />
 </head>
 
 <body>
@@ -21,53 +21,34 @@
     <!-- Parallax Lock Section -->
     <section class="parallax-section" id="sensing" data-parallax-lock aria-label="Sensing Solution 패럴랙스 섹션">
       <div class="stage" role="group" aria-roledescription="패럴랙스 스테이지">
-
-        <!-- BG 3장 -->
-        <div class="bg-wrap" aria-hidden="true">
-          <div class="bg-layer bg1"></div>
-          <div class="bg-layer bg2"></div>
-          <div class="bg-layer bg3"></div>
-        </div>
-
         <div class="content">
-          <div class="headline">
-            <p class="kicker">주요 제품</p>
-            <h2 class="title">Sensing Solution</h2>
-            <p class="desc">
-              세상을 읽는 정밀한 시선 : 통합 센싱 솔루션으로<br/>
-              더욱 더 안전하고 스마트한 자율주행의 미래를 완성합니다
-            </p>
+          <!--배경화면 fade-->
+          <div class="bg-fade">
+            <div class="bg-fade-layer bg1"><img src="../image/card-space-1.png" alt=""></div>
+            <div class="bg-fade-layer bg2"><img src="../image/card-space-2.png" alt=""></div>
+            <div class="bg-fade-layer bg3"><img src="../image/card-space-3.png" alt=""></div>
+            <div class="bg-fade-layer bg4"><img src="../image/card-space-4.png" alt=""></div>
           </div>
 
           <!-- 카드 13개 -->
           <div class="cards" aria-label="제품 카드 13개 목록">
             <div class="scroll-thumb" aria-hidden="true"></div>
-
-            <article class="card" data-i="0"><div class="mock-area">Mock Area</div><h3 class="label">Built-In Heating Camera</h3></article>
-            <article class="card" data-i="1"><div class="mock-area">Mock Area</div><h3 class="label">In-Cabin Camera</h3></article>
-            <article class="card" data-i="2"><div class="mock-area">Mock Area</div><h3 class="label">LiDAR</h3></article>
-            <article class="card" data-i="3"><div class="mock-area">Mock Area</div><h3 class="label">Processor / ECU</h3></article>
-            <article class="card" data-i="4"><div class="mock-area">Mock Area</div><h3 class="label">Surround View Camera</h3></article>
-            <article class="card" data-i="5"><div class="mock-area">Mock Area</div><h3 class="label">Front Radar</h3></article>
-            <article class="card" data-i="6"><div class="mock-area">Mock Area</div><h3 class="label">Corner Radar</h3></article>
-            <article class="card" data-i="7"><div class="mock-area">Mock Area</div><h3 class="label">Ultrasonic Sensor</h3></article>
-            <article class="card" data-i="8"><div class="mock-area">Mock Area</div><h3 class="label">Thermal Module</h3></article>
-            <article class="card" data-i="9"><div class="mock-area">Mock Area</div><h3 class="label">Driver Monitoring</h3></article>
-            <article class="card" data-i="10"><div class="mock-area">Mock Area</div><h3 class="label">Object Detection Unit</h3></article>
-            <article class="card" data-i="11"><div class="mock-area">Mock Area</div><h3 class="label">Central Gateway</h3></article>
-            <article class="card" data-i="12"><div class="mock-area">Mock Area</div><h3 class="label">Sensor Fusion</h3></article>
+              <article class="card" data-i="0"><img src="../image/chr1.png" alt=""></article>
+              <article class="card" data-i="1"><img src="../image/chr2.png" alt=""></article>
+              <article class="card" data-i="2"><img src="../image/chr3.png" alt=""></article>
+              <article class="card" data-i="3"><img src="../image/chr1.png" alt=""></article>
+              <article class="card" data-i="4"><img src="../image/chr2.png" alt=""></article>
+              <article class="card" data-i="5"><img src="../image/chr3.png" alt=""></article>
+              <article class="card" data-i="6"><img src="../image/chr1.png" alt=""></article>
+              <article class="card" data-i="7"><img src="../image/chr2.png" alt=""></article>
+              <article class="card" data-i="8"><img src="../image/chr3.png" alt=""></article>
+              <article class="card" data-i="9"><img src="../image/chr1.png" alt=""></article>
+              <article class="card" data-i="10"><img src="../image/chr2.png" alt=""></article>
+              <article class="card" data-i="11"><img src="../image/chr3.png" alt=""></article>
+              <article class="card" data-i="12"><img src="../image/chr1.png" alt=""></article>
           </div>
         </div>
-
-        <!-- 차량 도형 -->
-        <div class="car" aria-hidden="true">
-          <div class="shell"></div>
-          <div class="line"></div>
-          <div class="wheel left"></div>
-          <div class="wheel right"></div>
-        </div>
-
-        <div class="hint" aria-hidden="true">섹션 안에서만 진행 (BG 3장 페이드 + 카드 13개 흐름)</div>
+    
       </div>
     </section>
 
@@ -78,217 +59,6 @@
       </div>
     </section>
   </main>
-
-  <script>
-    (function(){
-      const section = document.querySelector('[data-parallax-lock]');
-      if(!section) return;
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduceMotion) return;
-
-      const root = document.documentElement;
-      const cardsWrap = section.querySelector('.cards');
-      const cards = Array.from(section.querySelectorAll('.card[data-i]'));
-
-      let progress = 0; // 0~1
-      let isLocked = false;
-      let isInView = false;
-
-      const SPEED = 0.00135;      // wheel sensitivity
-      const TOUCH_SPEED = 0.0022; // touch sensitivity
-
-      // ============ helpers ============
-      const clamp01 = (v) => Math.max(0, Math.min(1, v));
-      const lerp = (a,b,t) => a + (b-a)*t;
-      const smoothstep = (edge0, edge1, x) => {
-        const t = clamp01((x - edge0) / (edge1 - edge0));
-        return t * t * (3 - 2 * t);
-      };
-
-      // BG 크로스페이드:
-      // progress를 0~1로 두고, 0~0.5 구간: bg1->bg2, 0.5~1 구간: bg2->bg3
-      function updateBgFade(p){
-        const t1 = smoothstep(0.00, 0.55, p); // bg1->bg2
-        const t2 = smoothstep(0.45, 1.00, p); // bg2->bg3
-        const bg1 = 1 - t1;
-        const bg3 = t2;
-        const bg2 = Math.max(0, 1 - bg1 - bg3); // 중간 레이어
-
-        root.style.setProperty('--bg1', bg1.toFixed(4));
-        root.style.setProperty('--bg2', bg2.toFixed(4));
-        root.style.setProperty('--bg3', bg3.toFixed(4));
-      }
-
-      // 카드 흐름:
-      // cardsWrap 높이를 기준으로, progress가 증가하면 카드들이 위로 올라가며 "스크롤되는" 느낌
-      function layoutCards(p){
-        const wrapH = cardsWrap.getBoundingClientRect().height;
-
-        // 카드 간격/겹침 정도
-        const CARD_GAP = 170;   // 카드 간 세로 간격(겹치게)
-        const START_Y = 10;     // 시작 top
-        const travel = (cards.length - 4) * CARD_GAP; // 몇 장이 지나가게 할지
-
-        // p=0일 때: 상단부터 몇 장 보이고
-        // p=1일 때: 리스트가 위로 travel만큼 올라간 상태
-        const offsetY = lerp(0, travel, p);
-
-        cards.forEach((card, i) => {
-          const baseTop = START_Y + i * CARD_GAP - offsetY;
-
-          // 보여지는 중심 근처 카드에 강조(옵션)
-          // cardsWrap 안에서 보이는 위치 기준으로 투명도/스케일 조절
-          const center = wrapH * 0.42;
-          const dist = Math.abs((baseTop + 105) - center); // 105는 카드 절반 높이 대략
-          const focus = clamp01(1 - dist / (wrapH * 0.75)); // 0~1
-
-          const scale = lerp(0.94, 1.0, focus);
-          const blur = lerp(2.0, 0.0, focus);
-          const op = lerp(0.55, 1.0, focus);
-
-          card.style.setProperty('--baseTop', baseTop.toFixed(2));
-          card.style.transform = `translate3d(${(1 - p) * 18}px, 0, 0) scale(${scale})`;
-          card.style.filter = `blur(${blur}px)`;
-          card.style.opacity = op.toFixed(3);
-          card.style.zIndex = String(1000 - i); // 겹침 자연스럽게
-        });
-      }
-
-      function setProgress(p){
-        progress = clamp01(p);
-        root.style.setProperty('--p', progress.toFixed(4));
-        updateBgFade(progress);
-        layoutCards(progress);
-      }
-
-      function lockScroll(){
-        if(isLocked) return;
-        isLocked = true;
-        section.classList.add('is-locked');
-      }
-      function unlockScroll(){
-        if(!isLocked) return;
-        isLocked = false;
-        section.classList.remove('is-locked');
-      }
-
-      // 섹션 뷰 진입 감지
-      const io = new IntersectionObserver((entries)=>{
-        const e = entries[0];
-        isInView = e.isIntersecting;
-        if(!isInView) unlockScroll();
-      }, { threshold: 0.6 });
-
-      io.observe(section);
-
-      // ============ input handlers ============
-      function onWheel(e){
-        if(!isInView) return;
-
-        const dy = e.deltaY;
-        const goingDown = dy > 0;
-        const goingUp = dy < 0;
-
-        // 경계 탈출:
-        if(progress <= 0 && goingUp){
-          unlockScroll();
-          return;
-        }
-        if(progress >= 1 && goingDown){
-          unlockScroll();
-          return;
-        }
-
-        lockScroll();
-        e.preventDefault();
-
-        setProgress(progress + dy * SPEED);
-      }
-
-      // touch drag
-      let touchActive = false;
-      let touchStartY = 0;
-
-      function onTouchStart(e){
-        if(!isInView) return;
-        if(e.touches && e.touches.length){
-          touchActive = true;
-          touchStartY = e.touches[0].clientY;
-        }
-      }
-
-      function onTouchMove(e){
-        if(!touchActive || !isInView) return;
-        if(!(e.touches && e.touches.length)) return;
-
-        const y = e.touches[0].clientY;
-        const delta = touchStartY - y; // 손가락이 위로 이동하면 + (아래로 스크롤 의도)
-        const goingDown = delta > 0;
-        const goingUp = delta < 0;
-
-        // 경계 탈출
-        if(progress <= 0 && goingUp){
-          unlockScroll();
-          return;
-        }
-        if(progress >= 1 && goingDown){
-          unlockScroll();
-          return;
-        }
-
-        lockScroll();
-        e.preventDefault();
-
-        setProgress(progress + (delta * TOUCH_SPEED));
-        touchStartY = y;
-      }
-
-      function onTouchEnd(){ touchActive = false; }
-
-      // keyboard (a11y)
-      function onKeyDown(e){
-        if(!isInView) return;
-
-        const downKeys = ['ArrowDown','PageDown',' '];
-        const upKeys = ['ArrowUp','PageUp'];
-
-        const goingDown = downKeys.includes(e.key);
-        const goingUp = upKeys.includes(e.key);
-        if(!goingDown && !goingUp) return;
-
-        if(progress <= 0 && goingUp){
-          unlockScroll();
-          return;
-        }
-        if(progress >= 1 && goingDown){
-          unlockScroll();
-          return;
-        }
-
-        lockScroll();
-        e.preventDefault();
-
-        const step = 0.06;
-        setProgress(progress + (goingDown ? step : -step));
-      }
-
-      // resize 시 레이아웃 갱신
-      function onResize(){
-        layoutCards(progress);
-      }
-
-      // 이벤트 등록 (passive:false 중요)
-      window.addEventListener('wheel', onWheel, { passive: false });
-      window.addEventListener('touchstart', onTouchStart, { passive: false });
-      window.addEventListener('touchmove', onTouchMove, { passive: false });
-      window.addEventListener('touchend', onTouchEnd, { passive: true });
-      window.addEventListener('keydown', onKeyDown);
-      window.addEventListener('resize', onResize);
-
-      // init
-      setProgress(0);
-    })();
-  </script>
+  <script src="../js/page/card.js"></script>
 </body>
 </html>

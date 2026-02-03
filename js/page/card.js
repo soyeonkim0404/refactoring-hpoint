@@ -1,159 +1,135 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cardSectionParallax = document.querySelector('.card-section-parallax');
-    if (!cardSectionParallax) return;
+  const section = document.querySelector('[data-parallax-lock]');
+  if (!section) return;
 
-    const parallaxContent = cardSectionParallax.querySelector('.card-parallax-content');
-    const parallaxBgImages = cardSectionParallax.querySelectorAll('.card-parallax-bg_image');
-    
-    if (!parallaxContent || parallaxBgImages.length === 0) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
 
-    // 배경 이미지 개수
-    const bgImageCount = parallaxBgImages.length; // 4개
-    
-    // card-parallax-content의 전체 높이 계산
-    function calculateContentHeight() {
-        const contentRect = parallaxContent.getBoundingClientRect();
-        const contentHeight = parallaxContent.scrollHeight;
-        return contentHeight;
-    }
-    
-    // 섹션 높이를 4등분된 구간으로 설정 (각 구간 = 100vh)
-    function setSectionHeight() {
-        const contentHeight = calculateContentHeight();
-        // 4등분된 구간으로 나누기 (각 구간은 100vh)
-        const sectionHeight = bgImageCount * 100; // 4 * 100vh = 400vh
-        cardSectionParallax.style.height = `${sectionHeight}vh`;
-    }
-    
-    // 섹션의 시작 위치 저장
-    let sectionStartOffset = 0;
-    let currentBgIndex = -1; // 현재 활성화된 배경 이미지 인덱스 추적
-    
-    // 섹션 시작 위치 계산
-    function calculateSectionStart() {
-        const rect = cardSectionParallax.getBoundingClientRect();
-        sectionStartOffset = window.scrollY + rect.top;
-        return sectionStartOffset;
-    }
-    
-    // 스크롤 진행도에 따라 배경 이미지 전환
-    function updateBackgroundImage() {
-        const scrollY = window.scrollY;
-        const sectionRect = cardSectionParallax.getBoundingClientRect();
-        const sectionTop = sectionRect.top;
-        const sectionHeight = cardSectionParallax.offsetHeight;
-        const windowHeight = window.innerHeight;
-        
-        // 섹션이 뷰포트에 들어왔는지 확인
-        const isSectionVisible = sectionTop <= windowHeight && sectionTop >= -sectionHeight;
-        
-        if (!isSectionVisible) {
-            // 섹션이 뷰포트 밖에 있을 때
-            if (sectionTop > windowHeight) {
-                // 섹션 위에 있을 때: 첫 번째 이미지
-                if (currentBgIndex !== 0) {
-                    parallaxBgImages.forEach((img, index) => {
-                        if (index === 0) {
-                            img.classList.add('is-active');
-                        } else {
-                            img.classList.remove('is-active');
-                        }
-                    });
-                    currentBgIndex = 0;
-                }
-            } else {
-                // 섹션 아래에 있을 때: 마지막 이미지
-                if (currentBgIndex !== bgImageCount - 1) {
-                    parallaxBgImages.forEach((img, index) => {
-                        if (index === bgImageCount - 1) {
-                            img.classList.add('is-active');
-                        } else {
-                            img.classList.remove('is-active');
-                        }
-                    });
-                    currentBgIndex = bgImageCount - 1;
-                }
-            }
-            return;
-        }
-        
-        // 섹션 내에서의 스크롤 진행도 계산
-        // 섹션의 상단이 뷰포트 상단에 닿았을 때부터 시작
-        const sectionStart = sectionStartOffset;
-        const relativeScroll = scrollY - sectionStart;
-        
-        // 스크롤 진행도 계산 (0: 섹션 시작, 1: 섹션 끝)
-        const scrollProgress = Math.max(0, Math.min(1, relativeScroll / sectionHeight));
-        
-        // 4등분된 구간에 따라 배경 이미지 인덱스 결정
-        // 0 ~ 0.25: 이미지 0 (첫 번째)
-        // 0.25 ~ 0.5: 이미지 1 (두 번째)
-        // 0.5 ~ 0.75: 이미지 2 (세 번째)
-        // 0.75 ~ 1: 이미지 3 (네 번째)
-        let newBgIndex = 0;
-        
-        if (scrollProgress >= 0.75) {
-            newBgIndex = 3; // 4/4 지점
-        } else if (scrollProgress >= 0.5) {
-            newBgIndex = 2; // 3/4 지점
-        } else if (scrollProgress >= 0.25) {
-            newBgIndex = 1; // 2/4 지점
-        } else {
-            newBgIndex = 0; // 1/4 지점 (섹션 시작)
-        }
-        
-        // 배경 이미지가 변경되었을 때만 업데이트
-        if (currentBgIndex !== newBgIndex) {
-            parallaxBgImages.forEach((img, index) => {
-                if (index === newBgIndex) {
-                    img.classList.add('is-active');
-                } else {
-                    img.classList.remove('is-active');
-                }
-            });
-            currentBgIndex = newBgIndex;
-            
-            // 디버깅용 로그
-            console.log(`[BG Change] Progress: ${(scrollProgress * 100).toFixed(1)}%, Section: ${sectionTop.toFixed(0)}px, Scroll: ${scrollY.toFixed(0)}px, BG Index: ${newBgIndex}`);
-        }
-    }
-    
-    // 초기 설정
-    setSectionHeight();
-    
-    // 초기 섹션 시작 위치 계산 (약간의 딜레이를 두고 실행)
-    setTimeout(() => {
-        calculateSectionStart();
-        // 첫 번째 배경 이미지 활성화
-        if (parallaxBgImages.length > 0) {
-            parallaxBgImages[0].classList.add('is-active');
-            currentBgIndex = 0;
-        }
-        updateBackgroundImage();
-    }, 100);
-    
-    // 스크롤 이벤트 핸들러
-    let ticking = false;
-    function handleScroll() {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                updateBackgroundImage();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-    
-    // 리사이즈 이벤트 핸들러
-    function handleResize() {
-        setSectionHeight();
-        setTimeout(() => {
-            calculateSectionStart();
-            updateBackgroundImage();
-        }, 100);
-    }
-    
-    // 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
+  const root = document.documentElement;
+  const stage = section.querySelector('.stage');
+  const cardsWrap = section.querySelector('.cards');
+  const cards = Array.from(section.querySelectorAll('.card[data-i]'));
+  if (!stage || !cardsWrap || !cards.length) return;
+
+  // ===== helpers =====
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const smoothstep = (edge0, edge1, x) => {
+    const t = clamp01((x - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
+  };
+
+  // ===== BG fade =====
+  function updateBgFade(p) {
+    const s1 = smoothstep(0.00, 0.40, p);
+    const s2 = smoothstep(0.30, 0.70, p);
+    const s3 = smoothstep(0.60, 1.00, p);
+
+    const bg1 = 1 - s1;
+    const bg2 = s1 - s2;
+    const bg3 = s2 - s3;
+    const bg4 = s3;
+
+    root.style.setProperty('--bg1', Math.max(0, bg1).toFixed(4));
+    root.style.setProperty('--bg2', Math.max(0, bg2).toFixed(4));
+    root.style.setProperty('--bg3', Math.max(0, bg3).toFixed(4));
+    root.style.setProperty('--bg4', Math.max(0, bg4).toFixed(4));
+  }
+
+  // 카드 이동에 필요한 총 거리 계산 + 섹션 높이를 그에 맞게 자동 세팅
+  function measureAndSetSectionHeight() {
+    const stageH = stage.getBoundingClientRect().height || window.innerHeight;
+
+    // cardsWrap 내부 콘텐츠 실제 높이 (grid 전체 높이)
+    const contentH = cardsWrap.scrollHeight;
+
+    // 스테이지에서 보이는 영역(= cardsWrap 높이)
+    const visibleH = cardsWrap.getBoundingClientRect().height || stageH;
+
+    // 카드가 “끝까지” 올라가려면 필요한 기본 이동 거리
+    const baseTravel = Math.max(0, contentH - visibleH);
+
+    // ✅ 영상처럼 마지막에 카드가 더 “빠져나가는” 거리(연출용)
+    // 값 키우면 더 멀리 넘어감
+    const EXIT_EXTRA = Math.round(stageH * 0.55);
+
+    const totalTravel = baseTravel + EXIT_EXTRA;
+
+    // ✅ 섹션 높이를 "스테이지 높이 + 이동거리"로 맞춰주면
+    // 스크롤이 끝날 때 progress가 정확히 1이 됨
+    section.style.height = `${stageH + totalTravel}px`;
+
+    return { stageH, visibleH, contentH, baseTravel, totalTravel };
+  }
+
+  // progress = 섹션 내 스크롤 비율
+  function calcProgress() {
+    const rect = section.getBoundingClientRect();
+    const sectionTopInDoc = window.scrollY + rect.top;
+
+    const stageH = stage.getBoundingClientRect().height || window.innerHeight;
+    const sectionH = section.offsetHeight;
+
+    const maxScroll = Math.max(1, sectionH - stageH);
+    const y = window.scrollY - sectionTopInDoc;
+
+    return clamp01(y / maxScroll);
+  }
+
+  function layoutCards(p, metrics) {
+    // ✅ progress에 따라 cardsWrap 전체를 위로 이동
+    const offsetY = lerp(0, metrics.totalTravel, p);
+    cardsWrap.style.transform = `translate3d(0, ${-offsetY}px, 0)`;
+
+    // thumb(있으면)
+    root.style.setProperty('--p', p.toFixed(4));
+
+    // ✅ 중앙 강조(스테이지 중앙 기준)
+    const stageRect = stage.getBoundingClientRect();
+    const centerY = stageRect.top + stageRect.height * 0.5;
+
+    cards.forEach((card) => {
+      const r = card.getBoundingClientRect();
+      const cardCenter = (r.top + r.bottom) / 2;
+      const dist = Math.abs(cardCenter - centerY);
+
+      const focus = clamp01(1 - dist / (stageRect.height * 0.70));
+      const scale = lerp(0.92, 1.0, focus);
+      const blur = lerp(2.2, 0.0, focus);
+      const op = lerp(0.45, 1.0, focus);
+
+      //card.style.transform = `scale(${scale})`;
+      card.style.filter = `blur(${blur}px)`;
+      card.style.opacity = op.toFixed(3);
+    });
+  }
+
+  // ===== rAF scroll loop (부드럽고 안정적) =====
+  let metrics = null;
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    if (!metrics) metrics = measureAndSetSectionHeight();
+
+    const p = calcProgress();
+    updateBgFade(p);
+    layoutCards(p, metrics);
+  }
+
+  function requestTick() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  // init
+  metrics = measureAndSetSectionHeight();
+  update();
+
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', () => {
+    metrics = measureAndSetSectionHeight();
+    requestTick();
+  });
 });

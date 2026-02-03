@@ -16,13 +16,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 현재 활성화된 연도 추적
     let currentActiveYear = null;
     
-    // 히스토리 데이터와 연도별 설명 데이터
-    let historyData = [];
+    // 연도별 설명 데이터
     let yearDescriptions = {};
     let sections = [];
 
     // 히스토리 섹션 생성 함수
     function createHistorySection(yearData) {
+        if (!yearData || !yearData.year) {
+            console.warn('유효하지 않은 yearData:', yearData);
+            return null;
+        }
+        
         const section = document.createElement('section');
         section.className = 'his-section';
         section.id = `year-${yearData.year}`;
@@ -46,7 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
         eventsContainer.className = 'his-events';
 
         // 이벤트 생성
-        yearData.events.forEach(event => {
+        if (!yearData.events || !Array.isArray(yearData.events)) {
+            console.warn(`연도 ${yearData.year}의 이벤트 데이터가 유효하지 않습니다.`);
+        } else {
+            yearData.events.forEach(event => {
             const eventArticle = document.createElement('article');
             eventArticle.className = 'his-event';
 
@@ -63,31 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             contentDiv.appendChild(textP);
 
-            // 이미지가 있는 경우 이미지 버튼과 이미지 컨테이너 추가
-            if (event.image) {
-                const imageBtn = document.createElement('button');
-                imageBtn.className = 'his-event-image-btn';
-                imageBtn.setAttribute('aria-label', '이미지 보기');
-                const btnImg = document.createElement('img');
-                btnImg.src = '../image/ico_camera.svg';
-                btnImg.alt = '';
-                imageBtn.appendChild(btnImg);
-                contentDiv.appendChild(imageBtn);
-
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'his-event-image';
-                const eventImg = document.createElement('img');
-                eventImg.src = event.image;
-                eventImg.alt = event.text;
-                imageDiv.appendChild(eventImg);
-                eventArticle.appendChild(imageDiv);
-            }
-
             eventArticle.appendChild(monthSpan);
             eventArticle.appendChild(contentDiv);
 
             eventsContainer.appendChild(eventArticle);
-        });
+            });
+        }
 
         timeline.appendChild(dot);
         timeline.appendChild(yearTitle);
@@ -100,16 +88,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 탭 클릭 시 앵커 이동
     function setupTabs() {
+        if (!tabs || tabs.length === 0) {
+            console.warn('탭 요소를 찾을 수 없습니다.');
+            return;
+        }
+        
         tabs.forEach(tab => {
             tab.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
+                if (!targetId) return;
                 
+                const targetSection = document.querySelector(targetId);
                 if (targetSection) {
+                    // scroll-margin-top을 고려한 스크롤 위치 계산
                     const offsetTop = targetSection.offsetTop - 100; // 상단 여백 고려
                     window.scrollTo({
-                        top: offsetTop,
+                        top: Math.max(0, offsetTop), // 음수 방지
                         behavior: 'smooth'
                     });
                 }
@@ -121,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateActiveYear() {
         const scrollY = window.scrollY + 200; // 상단 여백 고려
         
-        sections.forEach((section, index) => {
+        sections.forEach((section) => {
             const rect = section.getBoundingClientRect();
             const sectionTop = rect.top + window.scrollY;
             const sectionBottom = sectionTop + rect.height;
@@ -138,10 +133,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // GSAP 스크롤 애니메이션 설정
     function setupScrollAnimations() {
-        sections.forEach((section, index) => {
+        sections.forEach((section) => {
             const events = section.querySelectorAll('.his-event');
             
-            events.forEach((event, eventIndex) => {
+            events.forEach((event) => {
                 gsap.fromTo(event, 
                     {
                         opacity: 0,
@@ -241,10 +236,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 현재 숫자와 목표 숫자 비교
-            const currentDigit = parseInt(currentDigits[index] || '0');
-            const targetDigit = parseInt(digit);
+            const currentDigit = parseInt(currentDigits[index] || '0', 10);
+            const targetDigit = parseInt(digit, 10);
             
-            const digitHeight = digitWrapper.querySelector('.his-year-digit-item').offsetHeight;
+            const digitItem = digitWrapper.querySelector('.his-year-digit-item');
+            if (!digitItem) {
+                console.warn('digit-item을 찾을 수 없습니다.');
+                return;
+            }
+            const digitHeight = digitItem.offsetHeight;
             const basePosition = 20; // 중간 세트 기준
             
             // 바뀌는 숫자만 롤링 애니메이션 적용
@@ -277,7 +277,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 개별 자리수 Y 방향 롤링 애니메이션
     function animateYearDigitRolling(element, currentDigit, targetDigit, duration) {
-        const digitHeight = element.querySelector('.his-year-digit-item').offsetHeight;
+        const digitItem = element.querySelector('.his-year-digit-item');
+        if (!digitItem) {
+            console.warn('digit-item을 찾을 수 없습니다.');
+            return;
+        }
+        const digitHeight = digitItem.offsetHeight;
         
         // 중간 세트(세 번째 세트, 인덱스 20-29)를 기준으로 사용
         // 현재 숫자 위치 계산 (세 번째 세트의 currentDigit 위치)
@@ -405,27 +410,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 이미지 버튼 클릭 이벤트 설정
-    function setupImageButtons() {
-        // 이벤트 위임 사용 (동적으로 생성된 요소에도 적용)
-        if (historyContent) {
-            historyContent.addEventListener('click', function(e) {
-                if (e.target.closest('.his-event-image-btn')) {
-                    const btn = e.target.closest('.his-event-image-btn');
-                    const event = btn.closest('.his-event');
-                    const imageContainer = event.querySelector('.his-event-image');
-                    
-                    if (imageContainer) {
-                        imageContainer.classList.toggle('show');
-                    }
-                }
-            });
-        }
-    }
-
     // 히스토리 초기화 함수
     function initializeHistory() {
         sections = document.querySelectorAll('.his-section');
+        
+        if (sections.length === 0) {
+            console.warn('히스토리 섹션을 찾을 수 없습니다.');
+            return;
+        }
         
         // 탭 설정
         setupTabs();
@@ -433,45 +425,45 @@ document.addEventListener('DOMContentLoaded', function() {
         // 스크롤 애니메이션 설정
         setupScrollAnimations();
         
-        // 이미지 버튼 이벤트 설정
-        setupImageButtons();
-        
         // 스크롤 이벤트 리스너
         window.addEventListener('scroll', handleScroll, { passive: true });
         
         // 초기 실행
-        if (sections.length > 0) {
-            const firstYear = sections[0].dataset.year;
-            // 초기 로드 시 현재 연도 설정 (애니메이션 없이)
-            currentActiveYear = firstYear;
-            
-            // 초기 섹션 active 클래스 설정
-            const firstSection = sections[0];
-            if (firstSection) {
-                firstSection.classList.add('active');
-            }
-            
-            // 하드코딩된 텍스트 제거 및 초기 롤링 구조 생성
-            if (activeYearTitle) {
-                // 기존 텍스트 노드 제거
-                const textNodes = [];
-                for (let i = 0; i < activeYearTitle.childNodes.length; i++) {
-                    const node = activeYearTitle.childNodes[i];
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        textNodes.push(node);
-                    }
-                }
-                textNodes.forEach(node => activeYearTitle.removeChild(node));
-                
-                // 초기 롤링 구조 생성 (애니메이션 없이)
-                createYearRolling(activeYearTitle, firstYear, 0);
-            }
-            
-            // 초기 로드 시 약간의 딜레이를 두고 애니메이션 시작
-            setTimeout(() => {
-                updateActiveTab(firstYear);
-            }, 300);
+        const firstYear = sections[0].dataset.year;
+        if (!firstYear) {
+            console.warn('첫 번째 섹션의 연도를 찾을 수 없습니다.');
+            return;
         }
+        
+        // 초기 로드 시 현재 연도 설정 (애니메이션 없이)
+        currentActiveYear = firstYear;
+        
+        // 초기 섹션 active 클래스 설정
+        const firstSection = sections[0];
+        if (firstSection) {
+            firstSection.classList.add('active');
+        }
+        
+        // 하드코딩된 텍스트 제거 및 초기 롤링 구조 생성
+        if (activeYearTitle) {
+            // 기존 텍스트 노드 제거
+            const textNodes = [];
+            for (let i = 0; i < activeYearTitle.childNodes.length; i++) {
+                const node = activeYearTitle.childNodes[i];
+                if (node.nodeType === Node.TEXT_NODE) {
+                    textNodes.push(node);
+                }
+            }
+            textNodes.forEach(node => activeYearTitle.removeChild(node));
+            
+            // 초기 롤링 구조 생성 (애니메이션 없이)
+            createYearRolling(activeYearTitle, firstYear, 0);
+        }
+        
+        // 초기 로드 시 약간의 딜레이를 두고 애니메이션 시작
+        setTimeout(() => {
+            updateActiveTab(firstYear);
+        }, 300);
 
         // 스크롤 투 탑 버튼 클릭
         if (scrollTopBtn) {
@@ -486,10 +478,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // JSON 데이터 로드 및 렌더링
     fetch('../json/history.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            historyData = data;
-            
             // 연도별 설명 데이터 생성
             data.forEach(item => {
                 yearDescriptions[item.year] = item.description;
@@ -498,7 +493,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 히스토리 섹션 생성
             data.forEach(yearData => {
                 const section = createHistorySection(yearData);
-                historyContent.appendChild(section);
+                if (section && historyContent) {
+                    historyContent.appendChild(section);
+                }
             });
 
             // 모든 섹션이 생성된 후 초기화
@@ -506,7 +503,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('히스토리 데이터를 불러오는 중 오류가 발생했습니다:', error);
-            // 에러 발생 시 기본 동작
-            initializeHistory();
+            // 에러 발생 시 기본 동작 (빈 상태로 초기화)
+            if (historyContent) {
+                initializeHistory();
+            }
         });
 });

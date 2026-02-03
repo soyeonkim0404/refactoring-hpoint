@@ -1,11 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>History - h.point</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/history.css" />
 </head>
 <body>
-    
+    <div class="history-container">
+        <!-- 연도 탭 네비게이션 -->
+        <nav class="his-tabs" role="tablist" aria-label="연도 선택">
+            <a href="#year-2026" class="his-tab" data-year="2026" role="tab" aria-selected="true">2026</a>
+            <a href="#year-2025" class="his-tab" data-year="2025" role="tab">2025</a>
+            <a href="#year-2024" class="his-tab" data-year="2024" role="tab">2024</a>
+            <a href="#year-2023" class="his-tab" data-year="2023" role="tab">2023</a>
+            <a href="#year-2022" class="his-tab" data-year="2022" role="tab">2022</a>
+            <a href="#year-2021" class="his-tab" data-year="2021" role="tab">2021</a>
+            <a href="#year-2020" class="his-tab" data-year="2020" role="tab">2020</a>
+            <a href="#year-2019" class="his-tab" data-year="2019" role="tab">2019</a>
+        </nav>
+
+        <!-- 왼쪽: Active 년도 표시 (Fixed) -->
+        <aside class="his-sidebar">
+            <div class="his-year-display">
+                <h2 class="his-year-title" id="activeYear" data-current-year="2026">2026</h2>
+                <p class="his-year-desc" id="activeYearDesc">S2W, 글로벌 AI 기반<br>데이터 인텔리전스 기업으로 도약</p>
+            </div>
+        </aside>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <main class="his-main">
+            <!-- 오른쪽: 연혁 타임라인 -->
+            <section class="his-content" id="historyContent">
+                <!-- JSON 데이터로 동적 생성 -->
+            </section>
+        </main>
+
+        <!-- 스크롤 투 탑 버튼 -->
+        <button class="his-scroll-top" aria-label="맨 위로 이동">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="../js/page/history.js"></script>
 </body>
 </html>

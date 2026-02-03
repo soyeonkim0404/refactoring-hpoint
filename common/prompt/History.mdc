@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+
+요구사항 :
+- /page/history.html, /css/history.scss, js/page/history.js에 제작해주세요.
+
+레이아웃 : 
+- 섹션 .his-section
+- 탭 : 2026년 ~ 2019년 
+- 왼쪽 : active 년도
+- 오른쪽 : 2026년 ~ 2019년도 연혁 내용들 노출
+
+동작 : 
+- 탭은 앵커이동 되도록 해주세요.
+- 스크롤시 왼쪽에는 active 년도를 보여주고, 오른쪽은 2026년 ~ 2019년도 연혁 내용들 노출되도록 해주세요.
+- 탭과 왼쪽 active 년도는 position:fixed로 보여주세요.
+- 반응형 고려해서 스타일 잡아주세요.
+
+구현 : 
+- gsap로 스크롤 애니메이션 구현해주세요.

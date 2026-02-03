@@ -1,0 +1,480 @@
+// History 페이지 스타일
+// 변수 정의
+$his-primary: #927B67;
+$his-text-dark: #000000;
+$his-text-gray: #666666;
+$his-white: #FFFFFF;
+
+.history-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: $his-white;
+    padding: 0;
+    overflow-x: hidden; // 가로 스크롤 방지
+    overflow-y: visible; // 세로 스크롤은 전체 페이지에서만
+}
+
+// 연도 탭 네비게이션
+.his-tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    gap: 40px;
+    padding: 24px 40px;
+    background-color: rgba($his-white, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba($his-text-dark, 0.1);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @media (max-width: 768px) {
+        gap: 24px;
+        padding: 20px 24px;
+    }
+}
+
+.his-tab {
+    font-size: 18px;
+    font-weight: 400;
+    color: $his-text-gray;
+    text-decoration: none;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+        color: $his-text-dark;
+    }
+
+    &.active {
+        color: $his-primary;
+        font-weight: 700;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -4px;
+            right: -4px;
+            height: 2px;
+            background-color: $his-primary;
+        }
+    }
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+}
+
+// 메인 콘텐츠 영역
+.his-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 40px 200px 480px; // 상단 여백 추가 (탭 높이 고려), 왼쪽 여백 추가 (사이드바 너비 + gap), 하단 여백 추가
+    overflow: visible; // 내부 스크롤 방지
+    height: auto; // 높이 제한 제거
+    min-height: auto; // 최소 높이 제한 제거
+
+    @media (max-width: 1024px) {
+        padding: 100px 24px 200px 360px; // 사이드바 너비 300px + gap 40px + padding 20px
+    }
+
+    @media (max-width: 768px) {
+        padding: 100px 20px 200px 20px; // 모바일에서는 사이드바가 relative이므로 왼쪽 여백 제거
+    }
+}
+
+// 왼쪽 사이드바 (Active 년도)
+.his-sidebar {
+    position: fixed;
+    top: 100px;
+    left: 40px;
+    width: 400px;
+    height: fit-content;
+    z-index: 90;
+    padding: 20px 0;
+
+    @media (max-width: 1024px) {
+        width: 300px;
+        left: 24px;
+    }
+
+    @media (max-width: 768px) {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 20px 0;
+    }
+}
+
+.his-year-display {
+    padding: 0;
+}
+
+.his-year-title {
+    font-size: 72px;
+    font-weight: 700;
+    color: $his-primary;
+    line-height: 1;
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+
+    @media (max-width: 1024px) {
+        font-size: 56px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    // 숫자 롤링 컨테이너
+    .his-year-digit-container {
+        display: inline-block;
+        height: 72px; // 폰트 크기와 동일
+        overflow: hidden;
+        vertical-align: top;
+
+        @media (max-width: 1024px) {
+            height: 56px;
+        }
+
+        @media (max-width: 768px) {
+            height: 48px;
+        }
+    }
+
+    .his-year-digit-wrapper {
+        display: flex;
+        flex-direction: column;
+        transition: transform 0s;
+    }
+
+    .his-year-digit-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 72px; // 폰트 크기와 동일
+        line-height: 72px;
+        font-size: 72px;
+        font-weight: 700;
+        color: $his-primary;
+
+        @media (max-width: 1024px) {
+            height: 56px;
+            line-height: 56px;
+            font-size: 56px;
+        }
+
+        @media (max-width: 768px) {
+            height: 48px;
+            line-height: 48px;
+            font-size: 48px;
+        }
+    }
+}
+
+.his-year-desc {
+    font-size: 20px;
+    font-weight: 400;
+    color: $his-text-dark;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    // 애니메이션 활성화 상태
+    &.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 오른쪽 콘텐츠 영역 (타임라인)
+.his-content {
+    position: relative;
+    margin-left: 0; // grid로 인해 자동으로 왼쪽 여백 생성됨
+    overflow: visible; // 내부 스크롤 방지
+    height: auto; // 높이 제한 제거
+    max-height: none; // 최대 높이 제한 제거
+    padding-bottom: 100px; // 하단 여백 추가
+    padding-left: 60px; // 타임라인 선을 위한 왼쪽 여백
+
+    @media (max-width: 768px) {
+        margin-left: 0;
+        padding-left: 40px;
+    }
+
+    // 전체 타임라인 선 (연속된 하나의 선)
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: rgba(208, 208, 208, 0.5); // 기본 비활성 회색 선 (#D0D0D0)
+        z-index: 1;
+        pointer-events: none;
+    }
+}
+
+.his-section {
+    margin-bottom: 80px;
+    scroll-margin-top: 120px;
+    overflow: visible; // 내부 스크롤 방지
+    position: relative; // 타임라인 선 위치 기준
+
+    &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 200px; // 마지막 섹션 하단 여백 추가
+    }
+
+    // 활성화된 연도
+    &.active {
+        .his-timeline-line {
+            opacity: 1; // 활성 섹션의 선 표시
+        }
+        .his-timeline-dot {
+            // 도트 스타일은 개별적으로 정의됨
+        }
+    }
+}
+
+.his-timeline {
+    position: relative;
+    padding-left: 0; // 타임라인 선은 부모에서 관리
+    overflow: visible; // 내부 스크롤 방지
+}
+
+// 개별 섹션의 타임라인 선 (활성 섹션의 선 강조용)
+// 섹션의 직접 자식으로 배치되어 섹션 전체 높이를 커버
+.his-timeline-line {
+    position: absolute;
+    left: -60px; // .his-content의 padding-left를 고려하여 선 위치에 맞춤
+    top: 0;
+    bottom: 0; // 섹션 전체 높이 커버 (padding-bottom 포함)
+    width: 2px;
+    background-color: #7B41E1; // 활성 보라색
+    z-index: 2;
+    opacity: 0; // 기본값: 숨김 (부모의 ::before 선 사용)
+    transition: opacity 0.3s ease;
+    pointer-events: none; // 클릭 이벤트 방해 방지
+
+    @media (max-width: 768px) {
+        left: -40px;
+    }
+
+    // 활성화된 섹션의 선만 표시 (위에 겹쳐서 보라색으로 표시)
+    .his-section.active & {
+        opacity: 1;
+    }
+}
+
+.his-timeline-dot {
+    position: absolute;
+    left: -67px; // 부모의 padding-left를 고려 (중앙 정렬: -60px - 7px)
+    top: 0; // 연도 제목과 정렬 (his-section-year의 top과 동일)
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    z-index: 3;
+    transition: all 0.3s ease;
+    transform: translateY(0.5em); // 연도 제목의 line-height 중앙에 정렬
+    
+    // 기본 스타일 (비활성) - 회색
+    background-color: rgba(208, 208, 208, 0.5); // #D0D0D0 with opacity
+    box-shadow: 0 0 0 3px rgba(224, 224, 224, 0.3); // 외곽 반투명 회색 링
+    
+    // 활성화된 섹션의 도트 스타일 - 보라색
+    .his-section.active & {
+        background-color: #7B41E1; // 밝은 보라색
+        box-shadow: 0 0 0 4px rgba(123, 65, 225, 0.2), // 외곽 반투명 보라색 링
+                    0 0 0 8px rgba(160, 125, 237, 0.15); // 더 큰 외곽 반투명 보라색 링
+    }
+
+    @media (max-width: 768px) {
+        left: -47px; // 모바일에서도 중앙 정렬
+    }
+}
+
+.his-section-year {
+    font-size: 32px;
+    font-weight: 700;
+    color: $his-text-dark;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+
+    @media (max-width: 768px) {
+        font-size: 28px;
+        margin-bottom: 32px;
+    }
+}
+
+.his-events {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: visible; // 내부 스크롤 방지
+}
+
+.his-event {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+    padding-left: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+
+    @media (max-width: 768px) {
+        gap: 16px;
+        padding-left: 16px;
+    }
+}
+
+.his-event-month {
+    font-size: 16px;
+    font-weight: 600;
+    color: $his-text-dark;
+    min-width: 32px;
+    flex-shrink: 0;
+}
+
+.his-event-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.his-event-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: $his-text-dark;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+}
+
+.his-event-image-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+}
+
+.his-event-image {
+    display: none;
+    margin-top: 16px;
+    margin-left: 72px;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 600px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+    &.show {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        margin-left: 48px;
+        max-width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 스크롤 투 탑 버튼
+.his-scroll-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: $his-white;
+    border: 1px solid rgba($his-text-dark, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        color: $his-text-dark;
+        transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+        bottom: 24px;
+        right: 24px;
+        width: 44px;
+        height: 44px;
+    }
+}

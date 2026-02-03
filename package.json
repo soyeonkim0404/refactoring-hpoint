@@ -7,7 +7,9 @@
     "sass:compile": "npx sass css/common.scss css/common.css",
     "sass:watch:card": "npx sass css/page/card/card.scss css/page/card/card.css --watch",
     "sass:compile:card": "npx sass css/page/card/card.scss css/page/card/card.css",
-    "sass:watch:all": "npm run sass:watch & npm run sass:watch:card"
+    "sass:watch:history": "npx sass css/history.scss css/history.css --watch",
+    "sass:compile:history": "npx sass css/history.scss css/history.css",
+    "sass:watch:all": "npm run sass:watch & npm run sass:watch:card & npm run sass:watch:history"
   },
   "devDependencies": {},
   "keywords": [],
